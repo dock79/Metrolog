@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Window
+	x:Class="Metrolog.Window1" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	Title="Metrolog"
+	WindowStartupLocation="CenterScreen"
+	WindowStyle="SingleBorderWindow"
+	Height="700"
+	Width="500"	
+	WindowState="Maximized"
+	x:Name="window1" Loaded="Window1_OnLoaded" Closing="Window1_OnClosing">
+	<Grid>
+		<Grid>
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition></ColumnDefinition>
+				<ColumnDefinition></ColumnDefinition>
+				<ColumnDefinition></ColumnDefinition>
+			</Grid.ColumnDefinitions>
+			<Grid.RowDefinitions>
+				<RowDefinition
+					Height="150"></RowDefinition>
+				<RowDefinition></RowDefinition>
+				<RowDefinition></RowDefinition>
+			</Grid.RowDefinitions>
+			<Image
+				Grid.Row="0"
+				Grid.Column="0"
+				Grid.ColumnSpan="3" 
+				Source="Images/Logo.jpg"
+				Stretch="Fill" />
+			<!-- <StackPanel
+				Grid.Column="0"
+				Grid.Row="0"
+				Grid.ColumnSpan="3"
+				Orientation="Horizontal">				
+				<Button
+					VerticalAlignment="Center"
+					HorizontalAlignment="Stretch"
+					Margin="10,0,0,0"
+					x:Name="button1"
+					Click="button1_Click"
+					Content="Создать xml файл" />
+				<Button
+					Content="Редактировть существующий xml файл"
+					VerticalAlignment="Center"
+					HorizontalAlignment="Stretch"
+					Margin="10,0,0,0"
+					x:Name="button2"
+					Click="button2_Click" />
+				<Button
+					Content="Просмотр xml файла"
+					VerticalAlignment="Center"
+					HorizontalAlignment="Stretch"
+					Margin="10,0,0,0"
+					x:Name="button3"
+					Click="button3_Click" />
+			</StackPanel>
+			<Frame
+				NavigationUIVisibility="Hidden"
+				x:Name="frame"
+				BorderBrush="Black"
+				BorderThickness="1"
+				Grid.Column="0"
+				Grid.Row="1"
+				Grid.ColumnSpan="3"
+				Grid.RowSpan="2"></Frame> -->
+			<ContentControl
+				Grid.Row="1"
+				Grid.Column="0"
+				Grid.ColumnSpan="3"
+				Grid.RowSpan="2"
+				x:Name="contentControl"
+				Content="{Binding CurrentContent, UpdateSourceTrigger=PropertyChanged}"></ContentControl>
+		</Grid>
+	</Grid>
+</Window>

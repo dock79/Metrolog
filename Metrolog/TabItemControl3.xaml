@@ -1,0 +1,471 @@
+<?xml version="1.0" encoding="utf-8"?>
+<UserControl
+	x:Class="Metrolog.TabItemControl3" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:sys="clr-namespace:System;assembly=mscorlib" xmlns:local="clr-namespace:Metrolog">
+	<UserControl.Resources>
+		<local:Item2ChoiceTypeConverter x:Key="Item2ChoiceTypeConverter"></local:Item2ChoiceTypeConverter>
+		<ObjectDataProvider
+			x:Key="dataFromEnum"
+			MethodName="GetValues"
+			ObjectType="{x:Type sys:Enum}">
+			<ObjectDataProvider.MethodParameters>
+				<x:Type
+					TypeName="local:recInfoOMethod" />
+			</ObjectDataProvider.MethodParameters>
+		</ObjectDataProvider>
+		<local:EnumDescriptionConverter
+			x:Key="enumConverter" />
+		<Style TargetType="TextBox">
+			<Style.Triggers>
+				<Trigger Property="Validation.HasError" Value="True">
+					<Setter Property="ToolTip"
+					        Value="{Binding RelativeSource={RelativeSource Self},
+													 Path=(Validation.Errors)[0].ErrorContent}" />
+					<!--<Setter Property="Foreground" Value="Red" />-->
+				</Trigger>
+			</Style.Triggers>
+		</Style>
+	</UserControl.Resources>
+	<ScrollViewer
+		VerticalScrollBarVisibility="Auto"
+		HorizontalScrollBarVisibility="Auto">
+		<Grid Grid.IsSharedSizeScope="True">
+			<StackPanel>
+				<GroupBox>
+					<GroupBox.Header>
+						<TextBlock FontWeight="SemiBold">Государственные первичные эталоны</TextBlock>
+					</GroupBox.Header>
+					<StackPanel>
+						<ListBox
+							x:Name="npeListBox"
+							HorizontalContentAlignment="Stretch"
+							BorderBrush="Transparent" 
+							SelectionMode="Single">
+							<ListBox.ItemTemplate>
+								<DataTemplate>
+									<GroupBox BorderThickness="0">
+									<Grid>
+										<Grid.ColumnDefinitions>
+											<ColumnDefinition Width="0.4*"/>
+											<ColumnDefinition Width="*"/>
+											<ColumnDefinition Width="Auto"/>
+										</Grid.ColumnDefinitions>
+										<Grid.RowDefinitions>
+										<RowDefinition Height="Auto" SharedSizeGroup="myGroupHeight"/>	
+										</Grid.RowDefinitions>
+										<Label
+											Grid.Column="0">Номер ГПЭ по реестру</Label>
+										<TextBox
+											Grid.Column="1"
+											Text="{Binding number, UpdateSourceTrigger=PropertyChanged}"
+											MaxLength="32"></TextBox>
+											<Button Grid.Column="2" Margin="5,0,0,0"
+ 												Command="{Binding Path=RemoveCommand1, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:TabItemControl3}}}" CommandParameter="{Binding }">Удалить</Button>
+									</Grid>
+									</GroupBox>
+								</DataTemplate>
+							</ListBox.ItemTemplate>
+							<ListBox.ItemContainerStyle>
+								<Style TargetType="{x:Type ListBoxItem}">
+									<Setter Property="Template">
+										<Setter.Value>
+											<ControlTemplate TargetType="ListBoxItem">
+												<ContentPresenter></ContentPresenter>
+											</ControlTemplate>
+										</Setter.Value>
+									</Setter>
+								</Style>
+							</ListBox.ItemContainerStyle>
+						</ListBox>
+						<StackPanel
+							Orientation="Horizontal">
+							<Button
+								x:Name="button1"
+								Content="Добавить"
+								Margin="0,5"
+								HorizontalAlignment="Center"
+								Click="button1_Click" />
+						</StackPanel>
+					</StackPanel>
+				</GroupBox>
+				<GroupBox Margin="0,5,0,0">
+					<GroupBox.Header>
+						<TextBlock FontWeight="SemiBold">Эталоны единицы величины</TextBlock>
+					</GroupBox.Header>
+					<StackPanel>
+						<ListBox
+							x:Name="uveListBox"
+							SelectionMode="Single" BorderBrush="Transparent"
+							HorizontalContentAlignment="Stretch">
+							<ListBox.ItemTemplate>
+								<DataTemplate>
+									<GroupBox BorderThickness="0">
+									<Grid>
+										<Grid.ColumnDefinitions>
+											<ColumnDefinition Width="0.4*"/>
+											<ColumnDefinition Width="*"/>
+											<ColumnDefinition Width="Auto"/>
+										</Grid.ColumnDefinitions>
+										<Grid.RowDefinitions>
+											<RowDefinition Height="Auto" SharedSizeGroup="myGroupHeight"/>	
+										</Grid.RowDefinitions>
+										<Label
+											Grid.Column="0">Номер эталона по реестру</Label>
+										<TextBox
+											Grid.Column="1"
+											Text="{Binding number, UpdateSourceTrigger=PropertyChanged}"	
+											MaxLength="32"></TextBox>
+										<Button Grid.Column="2" Margin="5,0,0,0"
+										        Command="{Binding Path=RemoveCommand2, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:TabItemControl3}}}" CommandParameter="{Binding }">Удалить</Button>
+										<!--  x:Name="number_1_TextBox"-->
+									</Grid>
+									</GroupBox>
+								</DataTemplate>
+							</ListBox.ItemTemplate>
+							<ListBox.ItemContainerStyle>
+								<Style TargetType="{x:Type ListBoxItem}">
+									<Setter Property="Template">
+										<Setter.Value>
+											<ControlTemplate TargetType="ListBoxItem">
+												<ContentPresenter></ContentPresenter>
+											</ControlTemplate>
+										</Setter.Value>
+									</Setter>
+								</Style>
+							</ListBox.ItemContainerStyle>
+						</ListBox>
+						<StackPanel
+							Orientation="Horizontal">
+							<Button
+								Content="Добавить"
+								Margin="0,5"
+								HorizontalAlignment="Center"
+								x:Name="button2"
+								Click="button2_Click" />
+						</StackPanel>
+					</StackPanel>
+				</GroupBox>
+				<GroupBox Margin="0,5,0,0">
+					<GroupBox.Header>
+						<TextBlock FontWeight="SemiBold">Стандартные образцы</TextBlock>
+					</GroupBox.Header>
+					<StackPanel>
+						<ListBox
+							x:Name="sesListBox"
+							SelectionMode="Single" BorderBrush="Transparent"
+							HorizontalContentAlignment="Stretch">
+							<ListBox.ItemTemplate>
+								<DataTemplate>
+									<GroupBox>
+										<GroupBox.Header>
+											<TextBlock FontWeight="SemiBold">Стандартный образец</TextBlock>
+										</GroupBox.Header>
+										<Grid>
+											<Grid.ColumnDefinitions>
+												<ColumnDefinition Width="Auto" SharedSizeGroup="myGroupWidth1" />
+												<ColumnDefinition />
+												<ColumnDefinition Width="Auto"/>
+											</Grid.ColumnDefinitions>
+											<Grid.RowDefinitions>
+												<RowDefinition Height="Auto" SharedSizeGroup="myGroupHeight1"/>
+												<RowDefinition />
+												<RowDefinition />
+												<RowDefinition/>
+											</Grid.RowDefinitions>
+											<Label
+												Grid.Column="0"
+												Grid.Row="0" Margin="0,5,0,0">Номер типа СО по реестру</Label>
+											<TextBox
+												Grid.Column="1"
+												Grid.Row="0" Margin="0,5,0,0"
+												Text="{Binding typeNum, UpdateSourceTrigger=PropertyChanged}"											
+												MaxLength="128"></TextBox>
+											<Label
+												Grid.Column="0"
+												Grid.Row="1" Margin="0,5,0,0">Год выпуска</Label>
+											<TextBox
+												Grid.Column="1"
+												Grid.Row="1" Margin="0,5,0,0"
+												Text="{Binding manufactureYear, UpdateSourceTrigger=PropertyChanged}" 
+												MaxLength="32"></TextBox>
+											<Label
+												Grid.Column="0"
+												Grid.Row="2" Margin="0,5,0,0">Заводской номер</Label>
+											<TextBox
+												Grid.Column="1"
+												Grid.Row="2" Margin="0,5,0,0"
+												Text="{Binding manufactureNum, UpdateSourceTrigger=PropertyChanged}"										
+												MaxLength="128"></TextBox>
+											<Label
+												Grid.Column="0" Margin="0,5,0,0"
+												Grid.Row="3">Метрологические характеристики СО</Label>
+											<TextBox
+												Grid.Column="1"
+												Grid.Row="3" Margin="0,5,0,0"
+												Text="{Binding metroChars, UpdateSourceTrigger=PropertyChanged}"										
+												MaxLength="1024"></TextBox>
+											<Button Grid.Row="3" Grid.Column="2" Margin="5,5,0,0" 
+											        Command="{Binding Path=RemoveCommand3, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:TabItemControl3}}}" CommandParameter="{Binding}">Удалить</Button>
+										</Grid>
+									</GroupBox>
+								</DataTemplate>
+							</ListBox.ItemTemplate>
+							<ListBox.ItemContainerStyle>
+								<Style TargetType="{x:Type ListBoxItem}">
+									<Setter Property="Template">
+										<Setter.Value>
+											<ControlTemplate TargetType="ListBoxItem">
+												<ContentPresenter></ContentPresenter>
+											</ControlTemplate>
+										</Setter.Value>
+									</Setter>
+								</Style>
+							</ListBox.ItemContainerStyle>	
+						</ListBox>
+						<StackPanel
+							Orientation="Horizontal">
+							<Button
+								Content="Добавить"
+								Margin="0,5"
+								HorizontalAlignment="Center"
+								x:Name="button3"
+								Click="button3_Click" />
+						</StackPanel>
+					</StackPanel>
+				</GroupBox>
+				<GroupBox Margin="0,5,0,0">
+					<GroupBox.Header>
+						<TextBlock FontWeight="SemiBold">Средство измерения, применяемое в качестве эталона</TextBlock>
+					</GroupBox.Header>
+					<StackPanel>
+						<ListBox
+							x:Name="mietaListBox"
+							SelectionMode="Single" BorderBrush="Transparent"
+							HorizontalContentAlignment="Stretch">
+							<ListBox.ItemTemplate>
+								<DataTemplate>
+									<GroupBox BorderThickness="0">
+									<Grid>
+										<Grid.ColumnDefinitions>
+											<ColumnDefinition Width="0.4*" />
+											<ColumnDefinition Width="*"/>
+											<ColumnDefinition Width="Auto"/>
+										</Grid.ColumnDefinitions>
+										<Grid.RowDefinitions>
+											<RowDefinition Height="Auto" SharedSizeGroup="myGroupHeight"/>	
+										</Grid.RowDefinitions>
+										<Label Grid.Column="0">Номер СИ по перечню СИ, применяемых в качестве эталонов</Label>
+										<TextBox
+											Grid.Column="1"
+											Text="{Binding number, UpdateSourceTrigger=PropertyChanged}"										
+											MaxLength="32"></TextBox>
+										<Button Grid.Column="2" Margin="5,0,0,0"
+										        Command="{Binding Path=RemoveCommand4, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:TabItemControl3}}}" CommandParameter="{Binding}">Удалить</Button>
+									</Grid>
+									</GroupBox>
+								</DataTemplate>
+							</ListBox.ItemTemplate>
+							<ListBox.ItemContainerStyle>
+								<Style TargetType="{x:Type ListBoxItem}">
+									<Setter Property="Template">
+										<Setter.Value>
+											<ControlTemplate TargetType="ListBoxItem">
+												<ContentPresenter></ContentPresenter>
+											</ControlTemplate>
+										</Setter.Value>
+									</Setter>
+								</Style>
+							</ListBox.ItemContainerStyle>
+						</ListBox>
+						<StackPanel
+							Orientation="Horizontal">
+							<Button
+								Content="Добавить"
+								Margin="0,5"
+								HorizontalAlignment="Center"
+								x:Name="button4"
+								Click="button4_Click" />
+						</StackPanel>
+					</StackPanel>
+				</GroupBox>
+				<GroupBox Margin="0,5,0,0">
+					<GroupBox.Header>
+						<TextBlock FontWeight="SemiBold">Средства измерения, применяемые при поверке</TextBlock>
+					</GroupBox.Header>
+					<StackPanel>
+						<ListBox
+							x:Name="misListBox"
+							SelectionMode="Single" BorderBrush="Transparent"
+							HorizontalContentAlignment="Stretch">
+							<ListBox.ItemTemplate>
+								<DataTemplate>
+									<GroupBox>
+										<GroupBox.Header>
+											<TextBlock FontWeight="SemiBold">Средство измерения, применяемое при поверке</TextBlock>
+										</GroupBox.Header>
+										<Grid>
+											<Grid.ColumnDefinitions>
+												<ColumnDefinition Width="Auto" SharedSizeGroup="myGroupWidth1" />
+												<ColumnDefinition/>
+												<ColumnDefinition Width="Auto"/>
+											</Grid.ColumnDefinitions>
+											<Grid.RowDefinitions>
+												<RowDefinition Height="Auto" SharedSizeGroup="myGroupHeight1"/>
+												<RowDefinition SharedSizeGroup="myGroupHeight1"/>
+												<RowDefinition SharedSizeGroup="myGroupHeight1"/>												
+											</Grid.RowDefinitions>
+											<Label
+												Grid.Column="0" Margin="0,5,0,0"
+												Grid.Row="0">Регистрационный номер типа СИ</Label>
+											<TextBox
+												Grid.Column="1"
+												Grid.Row="0" Margin="0,5,0,0"
+												Text="{Binding typeNum, UpdateSourceTrigger=PropertyChanged}"									
+												MaxLength="32"></TextBox>
+											<RadioButton
+												x:Name="manufactureNum_2_RadioButton"
+												Grid.Column="0"
+												Grid.Row="1"
+												VerticalAlignment="Center" VerticalContentAlignment="Center"
+												Margin="0,5,0,0"												
+												IsChecked="{Binding Type, Converter={StaticResource Item2ChoiceTypeConverter}, ConverterParameter='manufactureNum_2_RadioButton'}">
+												<!--IsChecked="{Binding IsmanufactureNum}"> {Binding IsChecked, ElementName=etaMiRadioButton, Converter={StaticResource BoolInverseConverter
+												   GroupName="1.1.11.5.1.2">	-->							
+										Заводской номер СИ									
+										</RadioButton>
+											<TextBox
+												Grid.Column="1"
+												Grid.Row="1" Margin="0,5,0,0"
+												Text="{Binding manufactureNum, UpdateSourceTrigger=PropertyChanged}"										
+												MaxLength="128"
+												IsEnabled="{Binding IsChecked, ElementName=manufactureNum_2_RadioButton}"></TextBox>
+											<RadioButton
+												x:Name="inventoryNum_2_RadioButton"
+												Grid.Column="0" 
+												Grid.Row="2"
+												Margin="0,5,0,0"
+												VerticalContentAlignment="Center"
+												VerticalAlignment="Center"
+												IsChecked="{Binding Type, Converter={StaticResource Item2ChoiceTypeConverter}, ConverterParameter='inventoryNum_2_RadioButton'}">
+												<!-- GroupName="1.1.11.5.1.2"> -->		
+										Буквенно-цифровое обозначение</RadioButton>
+											<TextBox
+												Grid.Column="1"
+												Grid.Row="2" Margin="0,5,0,0"
+												Text="{Binding inventoryNum, UpdateSourceTrigger=PropertyChanged}"								
+												MaxLength="128"
+												IsEnabled="{Binding IsChecked, ElementName=inventoryNum_2_RadioButton}"></TextBox>
+											<Button Grid.Row="2" Grid.Column="2" Margin="5,5,0,0"
+											        Command="{Binding Path=RemoveCommand5, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:TabItemControl3}}}" CommandParameter="{Binding}">Удалить</Button>
+										</Grid>
+									</GroupBox>
+								</DataTemplate>
+							</ListBox.ItemTemplate>
+							<ListBox.ItemContainerStyle>
+								<Style TargetType="{x:Type ListBoxItem}">
+									<Setter Property="Template">
+										<Setter.Value>
+											<ControlTemplate TargetType="ListBoxItem">
+												<ContentPresenter></ContentPresenter>
+											</ControlTemplate>
+										</Setter.Value>
+									</Setter>
+								</Style>
+							</ListBox.ItemContainerStyle>
+						</ListBox>
+						<StackPanel
+							Orientation="Horizontal">
+							<Button
+								Content="Добавить"
+								Margin="0,5"
+								HorizontalAlignment="Center"
+								x:Name="button5"
+								Click="button5_Click" />
+						</StackPanel>
+					</StackPanel>
+				</GroupBox>
+				<GroupBox Margin="0,5,0,0">
+					<GroupBox.Header>
+						<TextBlock FontWeight="SemiBold">Вещество (материал), применяемый при поверке</TextBlock>
+					</GroupBox.Header>
+					<StackPanel>
+						<ListBox
+							x:Name="reagentListBox"
+							SelectionMode="Single" BorderBrush="Transparent"
+							HorizontalContentAlignment="Stretch">							
+							<ListBox.ItemTemplate>
+								<DataTemplate>
+									<GroupBox BorderThickness="0">
+									<Grid>
+										<Grid.ColumnDefinitions>
+											<ColumnDefinition Width="0.4*"/>
+											<ColumnDefinition Width="*"/>
+											<ColumnDefinition Width="Auto"/>
+										</Grid.ColumnDefinitions>
+										<Grid.RowDefinitions>
+											<RowDefinition Height="Auto" SharedSizeGroup="myGroupHeight"/>	
+										</Grid.RowDefinitions>
+										<Label
+											Grid.Column="0">Номер вещества (материала) по реестру</Label>
+										<TextBox
+											Grid.Column="1"
+											Text="{Binding number, UpdateSourceTrigger=PropertyChanged}"									
+											MaxLength="32"></TextBox>
+										<Button Grid.Column="2" Margin="5,0,0,0"
+										        Command="{Binding Path=RemoveCommand6, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:TabItemControl3}}}" CommandParameter="{Binding}">Удалить</Button>
+										<!--  x:Name="number_1_TextBox"-->
+									</Grid>
+									</GroupBox>
+								</DataTemplate>
+							</ListBox.ItemTemplate>
+							<ListBox.ItemContainerStyle>
+								<Style TargetType="{x:Type ListBoxItem}">
+									<Setter Property="Template">
+										<Setter.Value>
+											<ControlTemplate TargetType="ListBoxItem">
+												<ContentPresenter></ContentPresenter>
+											</ControlTemplate>
+										</Setter.Value>
+									</Setter>
+								</Style>
+							</ListBox.ItemContainerStyle>
+						</ListBox>
+						<StackPanel
+							Orientation="Horizontal">
+							<Button
+								Content="Добавить"
+								Margin="0,5"
+								HorizontalAlignment="Center"
+								x:Name="button6"
+								Click="button6_Click" />
+						</StackPanel>
+					</StackPanel>
+				</GroupBox>
+				<Grid Margin="0,5,0,0">
+					<Grid.ColumnDefinitions>
+						<ColumnDefinition Width="Auto"></ColumnDefinition>
+						<ColumnDefinition Width="Auto"></ColumnDefinition>
+					</Grid.ColumnDefinitions>
+					<Grid.RowDefinitions>
+						<RowDefinition Height="Auto" SharedSizeGroup="myGroupHeight"/>
+					</Grid.RowDefinitions>
+					<!--<Label
+						Grid.Column="0">Доп. методы, использованные при поверке</Label>-->
+					<CheckBox Grid.Column="0" VerticalAlignment="Center" IsChecked="{Binding Path=IsoMethod}"
+						x:Name="oMethodCheckBox">Доп. методы, использованные при поверке</CheckBox>
+					<ComboBox
+						x:Name="oMethodComboBox"
+						Grid.Column="1" SelectedIndex="0"  Margin="5,0,0,0" VerticalContentAlignment="Center"
+						IsEnabled="{Binding IsChecked, ElementName=oMethodCheckBox}"
+						ItemsSource="{Binding Source={StaticResource dataFromEnum}}">						
+						<ComboBox.ItemTemplate>
+							<DataTemplate>
+								<TextBlock
+									Text="{Binding Converter={StaticResource enumConverter}}"></TextBlock>
+							</DataTemplate>
+						</ComboBox.ItemTemplate>
+					</ComboBox>
+				</Grid>
+			</StackPanel>
+		</Grid>
+	</ScrollViewer>
+</UserControl>

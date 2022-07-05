@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Window
+	x:Class="Metrolog.SettingsWindow" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:local="clr-namespace:Metrolog"
+	Title="Настройки"
+	Width="800"
+	Height="600"
+	WindowStyle="ToolWindow" ShowInTaskbar="False"
+	WindowStartupLocation="CenterOwner" Loaded="SettingsWindow_OnLoaded">
+	<Grid ShowGridLines="True">
+	<Grid.RowDefinitions>
+	<RowDefinition/>
+		<RowDefinition/>
+		<RowDefinition/>
+		<RowDefinition/>
+		<RowDefinition/>
+		<RowDefinition/>
+		<RowDefinition/>
+		</Grid.RowDefinitions>
+	<Grid.ColumnDefinitions>
+		<ColumnDefinition Width="Auto"/>
+		<ColumnDefinition/>
+		<ColumnDefinition Width="Auto"/>
+		</Grid.ColumnDefinitions>
+	<!--  <Label Grid.Row="0" Grid.Column="0">Проводить проверку файла xml на соответсвие шаблону</Label>-->
+	<CheckBox x:Name="IsValidateCheckBox" Grid.Row="0" Grid.Column="0" Margin="5,5" VerticalAlignment="Center">Выделять цветом поля, необходимые для заполнения</CheckBox>
+	<CheckBox x:Name="IsValidateToSchemaCheckBox" Grid.Row="1" Grid.Column="0" Margin="5,5" VerticalAlignment="Center">Проводить проверку файла xml на соответствие шаблону</CheckBox>
+	<!--<CheckBox x:Name="IsValidateCheckBox" Grid.Row="0" Grid.Column="0" Margin="5,5" VerticalAlignment="Center" IsChecked="{Binding Path=(local:ApplicationSettings.IsValidate), Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">Выделять цветом поля, необходимые для заполнения</CheckBox>
+	<CheckBox x:Name="IsValidateToSchemaCheckBox" Grid.Row="1" Grid.Column="0" Margin="5,5" VerticalAlignment="Center" IsChecked="{Binding Path=(local:ApplicationSettings.IsValidateToSchema), Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">Проводить проверку файла xml на соответствие шаблону</CheckBox>
+	-->
+	<TextBox x:Name="XmlSchemaTextBox" Grid.Row="1" Grid.Column="1" Margin="5,5" VerticalAlignment="Center"></TextBox>
+	<Button x:Name="XmlSchemaButton" Grid.Row="1" Grid.Column="2" Margin="5,5" VerticalAlignment="Center" Click="XmlSchemaButton_OnClick">Выбрать файл</Button>
+	<Label Grid.Row="2" Grid.Column="0" Margin="5,5" VerticalAlignment="Center">Цветовая схема</Label>
+	<ComboBox x:Name="ColorThemeComboBox"  Grid.Row="2" Grid.Column="1" Margin="5" VerticalAlignment="Center" SelectedIndex="0">
+	<ComboBox.Items>
+	<TextBlock>Светлая</TextBlock>
+	<TextBlock>Темная</TextBlock>
+	</ComboBox.Items>
+	</ComboBox>
+	<Label Grid.Row="3" Grid.Column="0" Margin="5,5" VerticalAlignment="Center">Просмотр xml файлов</Label>
+	<ComboBox x:Name="XmlViewerComboBox" Grid.Row="3" Grid.Column="1" Margin="5" VerticalAlignment="Center" SelectedIndex="0">
+		<ComboBox.Items>
+			<TextBlock>Браузер (по умолчанию)</TextBlock>
+			<TextBlock>Встроенный</TextBlock>
+		</ComboBox.Items>
+	</ComboBox>
+	<CheckBox x:Name="IsAnimateCheckBox" Grid.Row="4" Grid.Column="0" Margin="5,5" VerticalAlignment="Center">Выполнять анимацию</CheckBox>
+	<Button x:Name="OkButton" Grid.Row="5" Grid.Column="0" Margin="5,5"  VerticalAlignment="Center" Click="OkButton_OnClick">Ок</Button>
+	<Button x:Name="CancelButton" Grid.Row="5" Grid.Column="1" Margin="5,5"  VerticalAlignment="Center" Click="CancelButton_OnClick">Отмена</Button>
+	</Grid>
+</Window>

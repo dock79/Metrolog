@@ -1,0 +1,780 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" 
+    xmlns="urn://fgis-arshin.gost.ru/module-verifications/import/2020-06-19" 
+    targetNamespace="urn://fgis-arshin.gost.ru/module-verifications/import/2020-06-19" 
+    elementFormDefault="qualified" 
+    attributeFormDefault="qualified">
+
+    <!--
+    ****************************************************************************************************
+    Сведения о результатах поверки СИ
+    Формат файла, загружаемого пользователями на портал
+    ****************************************************************************************************
+    -->
+
+    <xsd:element name="application">
+        <xsd:annotation>
+            <xsd:documentation>
+                Заявка на публикацию сведений о результатах поверки СИ
+            </xsd:documentation>
+        </xsd:annotation>
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element name="result" type="recInfo" minOccurs="1" maxOccurs="unbounded">
+                    <xsd:annotation>
+                        <xsd:documentation>
+                            Сведения о результатах поверки СИ
+                        </xsd:documentation>
+                    </xsd:annotation>
+                </xsd:element>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+
+    <!--==========================================  Типы  ==========================================-->
+    <xsd:simpleType name="string32">
+        <xsd:annotation>
+            <xsd:documentation>
+            Тип данных: строка длиной не более 32 символов
+            </xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="xsd:string">
+            <xsd:minLength value="1" />
+            <xsd:maxLength value="32" />
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    <xsd:simpleType name="string128">
+        <xsd:annotation>
+            <xsd:documentation>
+            Тип данных: строка длиной не более 128 символов
+            </xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="xsd:string">
+            <xsd:minLength value="1" />
+            <xsd:maxLength value="128" />
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    <xsd:simpleType name="string512">
+        <xsd:annotation>
+            <xsd:documentation>
+            Тип данных: строка длиной не более 512 символов
+            </xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="xsd:string">
+            <xsd:minLength value="1" />
+            <xsd:maxLength value="512" />
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    <xsd:simpleType name="string1024">
+        <xsd:annotation>
+            <xsd:documentation>
+            Тип данных: строка длиной не более 1024 символов
+            </xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="xsd:string">
+            <xsd:minLength value="1" />
+            <xsd:maxLength value="1024" />
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    <xsd:complexType name="recInfo">
+        <xsd:annotation>
+            <xsd:documentation>
+            Тип данных: запись о результатах поверки СИ
+            </xsd:documentation>
+        </xsd:annotation>
+        <xsd:sequence>
+            <xsd:element name="miInfo" minOccurs="1" maxOccurs="1">
+                <xsd:annotation>
+                    <xsd:documentation>
+                        Сведения о СИ, применяемом в качестве эталона / СИ
+                    </xsd:documentation>
+                </xsd:annotation>
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:choice>
+                            <xsd:element name="etaMI" minOccurs="1" maxOccurs="1">
+                                <xsd:annotation>
+                                    <xsd:documentation>
+                                        СИ, применяемое в качестве эталона
+                                    </xsd:documentation>
+                                </xsd:annotation>
+                                <xsd:complexType>
+                                    <xsd:sequence>
+                                        <xsd:choice>
+                                            <xsd:element name="primaryRec" minOccurs="1" maxOccurs="1">
+                                                <xsd:annotation>
+                                                    <xsd:documentation>
+                                                        Первая поверка СИ, применяемого в качестве эталона
+                                                        Раздел заполняется, если СИ отсутствует в реестре ФИФ ОЕИ
+                                                    </xsd:documentation>
+                                                </xsd:annotation>
+                                                <xsd:complexType>
+                                                    <xsd:sequence>
+                                                        <xsd:element name="mitypeNumber" type="string32" minOccurs="1" maxOccurs="1">
+                                                            <xsd:annotation>
+                                                                <xsd:documentation>
+                                                                    Номер в Госреестре утвержденного типа СИ
+                                                                </xsd:documentation>
+                                                            </xsd:annotation>
+                                                        </xsd:element>
+                                                        <xsd:element name="modification" type="string128" minOccurs="1" maxOccurs="1">
+                                                            <xsd:annotation>
+                                                                <xsd:documentation>
+                                                                    Модификация СИ
+                                                                </xsd:documentation>
+                                                            </xsd:annotation>
+                                                        </xsd:element>
+                                                        <xsd:element name="manufactureNum" type="string128" minOccurs="1" maxOccurs="1">
+                                                            <xsd:annotation>
+                                                                <xsd:documentation>
+                                                                    Заводской номер СИ
+                                                                </xsd:documentation>
+                                                            </xsd:annotation>
+                                                        </xsd:element>
+                                                        <xsd:element name="manufactureYear" type="xsd:gYear" minOccurs="1" maxOccurs="1">
+                                                            <xsd:annotation>
+                                                                <xsd:documentation>
+                                                                    Год выпуска СИ
+                                                                </xsd:documentation>
+                                                            </xsd:annotation>
+                                                        </xsd:element>
+                                                        <xsd:element name="isOwner" type="xsd:boolean" minOccurs="1" maxOccurs="1">
+                                                            <xsd:annotation>
+                                                                <xsd:documentation>
+                                                                    Поверитель является владельцем СИ, применяемого в качестве эталона
+                                                                </xsd:documentation>
+                                                            </xsd:annotation>
+                                                        </xsd:element>
+                                                        <xsd:choice>
+                                                            <xsd:element name="gps" minOccurs="1" maxOccurs="1">
+                                                                <xsd:annotation>
+                                                                    <xsd:documentation>
+                                                                        Государственная поверочная схема
+                                                                    </xsd:documentation>
+                                                                </xsd:annotation>
+                                                                <xsd:complexType>
+                                                                    <xsd:sequence>
+                                                                        <xsd:element name="title" type="string128" minOccurs="1" maxOccurs="1">
+                                                                            <xsd:annotation>
+                                                                                <xsd:documentation>
+                                                                                    Наименование Государственной поверочной схемы
+                                                                                </xsd:documentation>
+                                                                            </xsd:annotation>
+                                                                        </xsd:element>
+                                                                        <xsd:element name="npeNumber" type="string32" minOccurs="1" maxOccurs="1">
+                                                                            <xsd:annotation>
+                                                                                <xsd:documentation>
+                                                                                    Регистрационный номер ГПЭ, к которому прослеживается СИ, применяемое в качестве эталона
+                                                                                </xsd:documentation>
+                                                                            </xsd:annotation>
+                                                                        </xsd:element>
+                                                                        <xsd:element name="rank" type="string32" minOccurs="1" maxOccurs="1">
+                                                                            <xsd:annotation>
+                                                                                <xsd:documentation>
+                                                                                    Разряд в поверочной схеме
+                                                                                </xsd:documentation>
+                                                                            </xsd:annotation>
+                                                                        </xsd:element>
+                                                                    </xsd:sequence>
+                                                                </xsd:complexType>
+                                                            </xsd:element>
+                                                            <xsd:element name="lps" minOccurs="1" maxOccurs="1">
+                                                                <xsd:annotation>
+                                                                    <xsd:documentation>
+                                                                        Локальная поверочная схема
+                                                                    </xsd:documentation>
+                                                                </xsd:annotation>
+                                                                <xsd:complexType>
+                                                                    <xsd:sequence>
+                                                                        <xsd:element name="title" type="string128" minOccurs="1" maxOccurs="1">
+                                                                            <xsd:annotation>
+                                                                                <xsd:documentation>
+                                                                                    Наименование локальной поверочной схемы
+                                                                                </xsd:documentation>
+                                                                            </xsd:annotation>
+                                                                        </xsd:element>
+                                                                        <xsd:element name="npeNumber" type="string32" minOccurs="1" maxOccurs="1">
+                                                                            <xsd:annotation>
+                                                                                <xsd:documentation>
+                                                                                    Регистрационный номер ГПЭ, к которому прослеживается СИ, применяемое в качестве эталона
+                                                                                </xsd:documentation>
+                                                                            </xsd:annotation>
+                                                                        </xsd:element>
+                                                                        <xsd:element name="rank" type="string32" minOccurs="1" maxOccurs="1">
+                                                                            <xsd:annotation>
+                                                                                <xsd:documentation>
+                                                                                    Разряд в поверочной схеме
+                                                                                </xsd:documentation>
+                                                                            </xsd:annotation>
+                                                                        </xsd:element>
+                                                                    </xsd:sequence>
+                                                                </xsd:complexType>
+                                                            </xsd:element>
+                                                            <xsd:element name="mp" minOccurs="1" maxOccurs="1">
+                                                                <xsd:annotation>
+                                                                    <xsd:documentation>
+                                                                        Методики поверки
+                                                                    </xsd:documentation>
+                                                                </xsd:annotation>
+                                                                <xsd:complexType>
+                                                                    <xsd:sequence>
+                                                                        <xsd:element name="title" type="string128" minOccurs="0" maxOccurs="1">
+                                                                            <xsd:annotation>
+                                                                                <xsd:documentation>
+                                                                                    Наименования методик поверки
+                                                                                </xsd:documentation>
+                                                                            </xsd:annotation>
+                                                                        </xsd:element>
+                                                                    </xsd:sequence>
+                                                                </xsd:complexType>
+                                                            </xsd:element>
+                                                        </xsd:choice>
+                                                    </xsd:sequence>
+                                                </xsd:complexType>
+                                            </xsd:element>
+                                            <xsd:element name="regNumber" type="string32" minOccurs="1" maxOccurs="1">
+                                                <xsd:annotation>
+                                                    <xsd:documentation>
+                                                        Повторная поверка СИ, применяемого в качестве эталона
+                                                        Регистрационный номер СИ в реестре ФИФ ОЕИ
+                                                    </xsd:documentation>
+                                                </xsd:annotation>
+                                            </xsd:element>
+                                        </xsd:choice>
+                                    </xsd:sequence>
+                                </xsd:complexType>
+                            </xsd:element>
+                            <xsd:element name="singleMI" minOccurs="1" maxOccurs="1">
+                                <xsd:annotation>
+                                    <xsd:documentation>
+                                        Сведения о единичном СИ
+                                    </xsd:documentation>
+                                </xsd:annotation>
+                                <xsd:complexType>
+                                    <xsd:sequence>
+                                        <xsd:choice>
+                                            <xsd:element name="mitypeNumber" type="string32" minOccurs="1" maxOccurs="1">
+                                                <xsd:annotation>
+                                                    <xsd:documentation>
+                                                        Номер в Госреестре утвержденного типа СИ
+                                                    </xsd:documentation>
+                                                </xsd:annotation>
+                                            </xsd:element>
+                                            <xsd:element name="crtmitypeTitle" type="string512" minOccurs="1" maxOccurs="1">
+                                                <xsd:annotation>
+                                                    <xsd:documentation>
+                                                        Метрологическая аттестация: наименование типа СИ
+                                                    </xsd:documentation>
+                                                </xsd:annotation>
+                                            </xsd:element>
+                                            <xsd:element name="milmitypeTitle" type="string512" minOccurs="1" maxOccurs="1">
+                                                <xsd:annotation>
+                                                    <xsd:documentation>
+                                                        СИ двойного назначения: наименование типа СИ
+                                                    </xsd:documentation>
+                                                </xsd:annotation>
+                                            </xsd:element>
+                                        </xsd:choice>
+                                        <xsd:choice>
+                                            <xsd:element name="manufactureNum" type="string128" minOccurs="1" maxOccurs="1">
+                                                <xsd:annotation>
+                                                    <xsd:documentation>
+                                                        Заводской номер СИ
+                                                    </xsd:documentation>
+                                                </xsd:annotation>
+                                            </xsd:element>
+                                            <xsd:element name="inventoryNum" type="string128" minOccurs="1" maxOccurs="1">
+                                                <xsd:annotation>
+                                                    <xsd:documentation>
+                                                        Инвентарный номер СИ
+                                                    </xsd:documentation>
+                                                </xsd:annotation>
+                                            </xsd:element>
+                                        </xsd:choice>
+                                        <xsd:element name="manufactureYear" type="xsd:gYear" minOccurs="0" maxOccurs="1">
+                                            <xsd:annotation>
+                                                <xsd:documentation>
+                                                    Год выпуска СИ
+                                                </xsd:documentation>
+                                            </xsd:annotation>
+                                        </xsd:element>
+                                        <xsd:element name="modification" type="string128" minOccurs="1" maxOccurs="1">
+                                            <xsd:annotation>
+                                                <xsd:documentation>
+                                                    Модификация СИ
+                                                </xsd:documentation>
+                                            </xsd:annotation>
+                                        </xsd:element>
+                                    </xsd:sequence>
+                                </xsd:complexType>
+                            </xsd:element>
+                        </xsd:choice>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+            <xsd:element name="signCipher" minOccurs="1" maxOccurs="1">
+                <xsd:annotation>
+                    <xsd:documentation>
+                        Условный шифр знака поверки
+                    </xsd:documentation>
+                </xsd:annotation>
+                <xsd:simpleType>
+                    <xsd:restriction base="xsd:string">
+                        <xsd:pattern value="[А-Я]{1,3}" />
+                    </xsd:restriction>
+                </xsd:simpleType>
+            </xsd:element>
+            <xsd:element name="miOwner" type="string512" minOccurs="1" maxOccurs="1">
+                <xsd:annotation>
+                    <xsd:documentation>
+                        Владелец СИ
+                    </xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="vrfDate" type="xsd:date" minOccurs="1" maxOccurs="1">
+                <xsd:annotation>
+                    <xsd:documentation>
+                        Дата поверки СИ
+                    </xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="validDate" type="xsd:date" minOccurs="0" maxOccurs="1">
+                <xsd:annotation>
+                    <xsd:documentation>
+                        Поверка действительна до
+                        Не указывается в случае, когда предусмотрена только первичная поверка
+                    </xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="type" minOccurs="1" maxOccurs="1">
+                <xsd:annotation>
+                    <xsd:documentation>
+                        Признак первичной или периодической поверки
+                    </xsd:documentation>
+                </xsd:annotation>
+                <xsd:simpleType>
+                    <xsd:restriction base="xsd:positiveInteger">
+                        <xsd:enumeration value="1">
+                            <xsd:annotation>
+                                <xsd:documentation>
+                                    Первичная поверка
+                                </xsd:documentation>
+                            </xsd:annotation>
+                        </xsd:enumeration>
+                        <xsd:enumeration value="2">
+                            <xsd:annotation>
+                                <xsd:documentation>
+                                    Периодическая поверка
+                                </xsd:documentation>
+                            </xsd:annotation>
+                        </xsd:enumeration>
+                    </xsd:restriction>
+                </xsd:simpleType>
+            </xsd:element>
+            <xsd:element name="calibration" type="xsd:boolean" minOccurs="1" maxOccurs="1">
+                <xsd:annotation>
+                    <xsd:documentation>
+                        Признак поверки средства измерений с использованием результатов калибровки
+                    </xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:choice>
+                <xsd:element name="applicable" minOccurs="1" maxOccurs="1">
+                    <xsd:annotation>
+                        <xsd:documentation>
+                            СИ пригодно
+                        </xsd:documentation>
+                    </xsd:annotation>
+                    <xsd:complexType>
+                        <xsd:sequence>
+                            <xsd:element name="stickerNum" type="string128" minOccurs="0" maxOccurs="1">
+                                <xsd:annotation>
+                                    <xsd:documentation>
+                                        Номер наклейки
+                                    </xsd:documentation>
+                                </xsd:annotation>
+                            </xsd:element>
+                            <xsd:element name="signPass" type="xsd:boolean" minOccurs="1" maxOccurs="1">
+                                <xsd:annotation>
+                                    <xsd:documentation>
+                                        Знак поверки в паспорте
+                                    </xsd:documentation>
+                                </xsd:annotation>
+                            </xsd:element>
+                            <xsd:element name="signMi" type="xsd:boolean" minOccurs="1" maxOccurs="1">
+                                <xsd:annotation>
+                                    <xsd:documentation>
+                                        Знак поверки на СИ
+                                    </xsd:documentation>
+                                </xsd:annotation>
+                            </xsd:element>
+                        </xsd:sequence>
+                    </xsd:complexType>
+                </xsd:element>
+                <xsd:element name="inapplicable" minOccurs="1" maxOccurs="1">
+                    <xsd:annotation>
+                        <xsd:documentation>
+                            СИ не пригодно
+                        </xsd:documentation>
+                    </xsd:annotation>
+                    <xsd:complexType>
+                        <xsd:sequence>
+                            <xsd:element name="reasons" type="string1024" minOccurs="1" maxOccurs="1">
+                                <xsd:annotation>
+                                    <xsd:documentation>
+                                        Причины непригодности
+                                    </xsd:documentation>
+                                </xsd:annotation>
+                            </xsd:element>
+                        </xsd:sequence>
+                    </xsd:complexType>
+                </xsd:element>
+            </xsd:choice>
+            <xsd:element name="docTitle" type="string128" minOccurs="1" maxOccurs="1">
+                <xsd:annotation>
+                    <xsd:documentation>
+                        Наименование документа, на основании которого выполнена поверка
+                    </xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="metrologist" type="string128" minOccurs="0" maxOccurs="1">
+                <xsd:annotation>
+                    <xsd:documentation>
+                        Ф.И.О. поверителя
+                    </xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="means" minOccurs="1" maxOccurs="1">
+                <xsd:annotation>
+                    <xsd:documentation>
+                        Средства поверки
+                    </xsd:documentation>
+                </xsd:annotation>
+                <xsd:complexType>
+                    <xsd:choice minOccurs="1" maxOccurs="unbounded">
+                        <xsd:element name="npe" minOccurs="1" maxOccurs="1">
+                            <xsd:annotation>
+                                <xsd:documentation>
+                                    Государственные первичные эталоны
+                                </xsd:documentation>
+                            </xsd:annotation>
+                            <xsd:complexType>
+                                <xsd:sequence>
+                                    <xsd:element name="number" type="string32" minOccurs="1" maxOccurs="unbounded">
+                                        <xsd:annotation>
+                                            <xsd:documentation>
+                                                Номер ГПЭ по реестру
+                                            </xsd:documentation>
+                                        </xsd:annotation>
+                                    </xsd:element>
+                                </xsd:sequence>
+                            </xsd:complexType>
+                        </xsd:element>
+                        <xsd:element name="uve" minOccurs="1" maxOccurs="1">
+                            <xsd:annotation>
+                                <xsd:documentation>
+                                    Эталоны единицы величины
+                                </xsd:documentation>
+                            </xsd:annotation>
+                            <xsd:complexType>
+                                <xsd:sequence>
+                                    <xsd:element name="number" type="string32" minOccurs="1" maxOccurs="unbounded">
+                                        <xsd:annotation>
+                                            <xsd:documentation>
+                                                Номер эталона по реестру
+                                            </xsd:documentation>
+                                        </xsd:annotation>
+                                    </xsd:element>
+                                </xsd:sequence>
+                            </xsd:complexType>
+                        </xsd:element>
+                        <xsd:element name="ses" minOccurs="1" maxOccurs="1">
+                            <xsd:annotation>
+                                <xsd:documentation>
+                                    Стандартные образцы
+                                </xsd:documentation>
+                            </xsd:annotation>
+                            <xsd:complexType>
+                                <xsd:sequence>
+                                    <xsd:element name="se" minOccurs="1" maxOccurs="unbounded">
+                                        <xsd:annotation>
+                                            <xsd:documentation>
+                                                Стандартный образец
+                                            </xsd:documentation>
+                                        </xsd:annotation>
+                                        <xsd:complexType>
+                                            <xsd:sequence>
+                                                <xsd:element name="typeNum" type="string128" minOccurs="1" maxOccurs="1">
+                                                    <xsd:annotation>
+                                                        <xsd:documentation>
+                                                            Номер типа СО по реестру
+                                                        </xsd:documentation>
+                                                    </xsd:annotation>
+                                                </xsd:element>
+                                                <xsd:element name="manufactureYear" type="xsd:gYear" minOccurs="1" maxOccurs="1">
+                                                    <xsd:annotation>
+                                                        <xsd:documentation>
+                                                            Год выпуска
+                                                        </xsd:documentation>
+                                                    </xsd:annotation>
+                                                </xsd:element>
+                                                <xsd:element name="manufactureNum" type="string128" minOccurs="0" maxOccurs="1">
+                                                    <xsd:annotation>
+                                                        <xsd:documentation>
+                                                            Заводские номера / Номера партии
+                                                        </xsd:documentation>
+                                                    </xsd:annotation>
+                                                </xsd:element>
+                                                <xsd:element name="metroChars" type="string1024" minOccurs="0" maxOccurs="1">
+                                                    <xsd:annotation>
+                                                        <xsd:documentation>
+                                                            Метрологические характеристики СО
+                                                        </xsd:documentation>
+                                                    </xsd:annotation>
+                                                </xsd:element>
+                                            </xsd:sequence>
+                                        </xsd:complexType>
+                                    </xsd:element>
+                                </xsd:sequence>
+                            </xsd:complexType>
+                        </xsd:element>
+                        <xsd:element name="mieta" minOccurs="1" maxOccurs="1">
+                            <xsd:annotation>
+                                <xsd:documentation>
+                                    Средство измерения, применяемое в качестве эталона
+                                </xsd:documentation>
+                            </xsd:annotation>
+                            <xsd:complexType>
+                                <xsd:sequence>
+                                    <xsd:element name="number" type="string32" minOccurs="1" maxOccurs="unbounded">
+                                        <xsd:annotation>
+                                            <xsd:documentation>
+                                                Номер СИ по реестру
+                                            </xsd:documentation>
+                                        </xsd:annotation>
+                                    </xsd:element>
+                                </xsd:sequence>
+                            </xsd:complexType>
+                        </xsd:element>
+                        <xsd:element name="mis" minOccurs="1" maxOccurs="1">
+                            <xsd:annotation>
+                                <xsd:documentation>
+                                    Средства измерения, применяемые при поверке
+                                </xsd:documentation>
+                            </xsd:annotation>
+                            <xsd:complexType>
+                                <xsd:sequence>
+                                    <xsd:element name="mi" minOccurs="1" maxOccurs="unbounded">
+                                        <xsd:annotation>
+                                            <xsd:documentation>
+                                                Средство измерения, применяемое при поверке
+                                            </xsd:documentation>
+                                        </xsd:annotation>
+                                        <xsd:complexType>
+                                            <xsd:sequence>
+                                                <xsd:element name="typeNum" type="string32" minOccurs="1" maxOccurs="1">
+                                                    <xsd:annotation>
+                                                        <xsd:documentation>
+                                                            Регистрационный номер типа СИ
+                                                        </xsd:documentation>
+                                                    </xsd:annotation>
+                                                </xsd:element>
+                                                <xsd:element name="manufactureNum" type="string128" minOccurs="0" maxOccurs="1">
+                                                    <xsd:annotation>
+                                                        <xsd:documentation>
+                                                            Заводской номер СИ
+                                                        </xsd:documentation>
+                                                    </xsd:annotation>
+                                                </xsd:element>
+                                                <xsd:element name="inventoryNum" type="string128" minOccurs="0" maxOccurs="1">
+                                                    <xsd:annotation>
+                                                        <xsd:documentation>
+                                                            Инвентарный номер СИ
+                                                        </xsd:documentation>
+                                                    </xsd:annotation>
+                                                </xsd:element>
+                                            </xsd:sequence>
+                                        </xsd:complexType>
+                                    </xsd:element>
+                                </xsd:sequence>
+                            </xsd:complexType>
+                        </xsd:element>
+                        <xsd:element name="reagent" minOccurs="1" maxOccurs="1">
+                            <xsd:annotation>
+                                <xsd:documentation>
+                                    Вещество (материал), применяемый при поверке
+                                </xsd:documentation>
+                            </xsd:annotation>
+                            <xsd:complexType>
+                                <xsd:sequence>
+                                    <xsd:element name="number" type="string32" minOccurs="1" maxOccurs="unbounded">
+                                        <xsd:annotation>
+                                            <xsd:documentation>
+                                                Номер вещества (материала) по реестру
+                                            </xsd:documentation>
+                                        </xsd:annotation>
+                                    </xsd:element>
+                                </xsd:sequence>
+                            </xsd:complexType>
+                        </xsd:element>
+                        <xsd:element name="oMethod" minOccurs="1" maxOccurs="1">
+                            <xsd:annotation>
+                                <xsd:documentation>
+                                    Доп. методы, использованные при поверке
+                                </xsd:documentation>
+                            </xsd:annotation>
+                            <xsd:simpleType>
+                                <xsd:restriction base="xsd:positiveInteger">
+                                    <xsd:enumeration value="1">
+                                        <xsd:annotation>
+                                            <xsd:documentation>
+                                                «поверка имитационным методом»
+                                            </xsd:documentation>
+                                        </xsd:annotation>
+                                    </xsd:enumeration>
+                                    <xsd:enumeration value="2">
+                                        <xsd:annotation>
+                                            <xsd:documentation>
+                                                «самоповерка»
+                                            </xsd:documentation>
+                                        </xsd:annotation>
+                                    </xsd:enumeration>
+                                    <xsd:enumeration value="3">
+                                        <xsd:annotation>
+                                            <xsd:documentation>
+                                                «поверка расчетным методом»
+                                            </xsd:documentation>
+                                        </xsd:annotation>
+                                    </xsd:enumeration>
+                                    <xsd:enumeration value="4">
+                                        <xsd:annotation>
+                                            <xsd:documentation>
+                                                «поверка с использованием первичной референтной методики измерений»
+                                            </xsd:documentation>
+                                        </xsd:annotation>
+                                    </xsd:enumeration>
+                                </xsd:restriction>
+                            </xsd:simpleType>
+                        </xsd:element>
+                    </xsd:choice>
+                </xsd:complexType>
+            </xsd:element>
+            <xsd:element name="conditions" minOccurs="1" maxOccurs="1">
+                <xsd:annotation>
+                    <xsd:documentation>
+                        Условия проведения поверки
+                    </xsd:documentation>
+                </xsd:annotation>
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element name="temperature" type="string128" minOccurs="1" maxOccurs="1">
+                            <xsd:annotation>
+                                <xsd:documentation>
+                                    Температура
+                                </xsd:documentation>
+                            </xsd:annotation>
+                        </xsd:element>
+                        <xsd:element name="pressure" type="string128" minOccurs="1" maxOccurs="1">
+                            <xsd:annotation>
+                                <xsd:documentation>
+                                    Атмосферное давление
+                                </xsd:documentation>
+                            </xsd:annotation>
+                        </xsd:element>
+                        <xsd:element name="hymidity" type="string128" minOccurs="1" maxOccurs="1">
+                            <xsd:annotation>
+                                <xsd:documentation>
+                                    Относительная влажность
+                                </xsd:documentation>
+                            </xsd:annotation>
+                        </xsd:element>
+                        <xsd:element name="other" type="string128" minOccurs="0" maxOccurs="1">
+                            <xsd:annotation>
+                                <xsd:documentation>
+                                    Другие влияющие факторы
+                                </xsd:documentation>
+                            </xsd:annotation>
+                        </xsd:element>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+            <xsd:element name="structure" type="string1024" minOccurs="0" maxOccurs="1">
+                <xsd:annotation>
+                    <xsd:documentation>
+                        Состав СИ, представленного на поверку
+                    </xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="brief_procedure" minOccurs="0" maxOccurs="1">
+                <xsd:annotation>
+                    <xsd:documentation>
+                        Поверка в сокращенном объеме
+                    </xsd:documentation>
+                </xsd:annotation>
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element name="characteristics" type="string1024" minOccurs="1" maxOccurs="1">
+                            <xsd:annotation>
+                                <xsd:documentation>
+                                    Краткая характеристика объема поверки
+                                </xsd:documentation>
+                            </xsd:annotation>
+                        </xsd:element>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+            <xsd:element name="additional_info" type="string1024" minOccurs="0" maxOccurs="1">
+                <xsd:annotation>
+                    <xsd:documentation>
+                        Прочие сведения
+                    </xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="protocol" minOccurs="0" maxOccurs="1">
+                <xsd:annotation>
+                    <xsd:documentation>
+                        Протокол поверки
+                    </xsd:documentation>
+                </xsd:annotation>
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element name="content" type="xsd:base64Binary" minOccurs="1" maxOccurs="1">
+                            <xsd:annotation>
+                                <xsd:documentation>
+                                    Содержимое файла протокола поверки
+                                </xsd:documentation>
+                            </xsd:annotation>
+                        </xsd:element>
+                    </xsd:sequence>
+                    <xsd:attribute name="mimetype" use="required">
+                        <xsd:annotation>
+                            <xsd:documentation>
+                                Тип файла
+                            </xsd:documentation>
+                        </xsd:annotation>
+                        <xsd:simpleType>
+                            <xsd:restriction base="xsd:string">
+                                <xsd:enumeration value="application/pdf" />
+                                <xsd:enumeration value="application/msword" />
+                                <xsd:enumeration value="application/zip" />
+                                <xsd:enumeration value="image/vnd.djvu" />
+                            </xsd:restriction>
+                        </xsd:simpleType>
+                    </xsd:attribute>
+                    <xsd:attribute name="filename" type="string128" use="required">
+                        <xsd:annotation>
+                            <xsd:documentation>
+                                Наименование файла
+                            </xsd:documentation>
+                        </xsd:annotation>
+                    </xsd:attribute>
+                </xsd:complexType>
+            </xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+
+</xsd:schema>
