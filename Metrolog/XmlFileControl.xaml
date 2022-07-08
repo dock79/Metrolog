@@ -7,41 +7,43 @@
 		<local:CurrentIndexConverter
 			x:Key="CurrentIndexConverter"></local:CurrentIndexConverter>
 	</UserControl.Resources>
-	<Grid>
+	<Grid Grid.IsSharedSizeScope="True">
 		<Grid.ColumnDefinitions>
-			<ColumnDefinition Width="Auto"></ColumnDefinition>
+			<ColumnDefinition></ColumnDefinition>
 			<ColumnDefinition></ColumnDefinition>
 			<ColumnDefinition></ColumnDefinition>
 		</Grid.ColumnDefinitions>
 		<Grid.RowDefinitions>
 			<RowDefinition
-				Height="Auto"></RowDefinition>
-			<RowDefinition
-				Height="Auto"></RowDefinition>
+				SharedSizeGroup="a"></RowDefinition>
 			<RowDefinition
 				Height="*"></RowDefinition>
-			<RowDefinition
-				Height="*"></RowDefinition>
-			<RowDefinition
-				Height="0.1*"></RowDefinition>
+			<RowDefinition SharedSizeGroup="a"></RowDefinition>
 		</Grid.RowDefinitions>
-		<Border Grid.Row="0" Grid.Column="0" Margin="5,5,0,0">
-			<StackPanel
-				Orientation="Horizontal">
+		<StackPanel Grid.Row="0" Grid.Column="0" Margin="5,5,0,0"
+		            Orientation="Horizontal">
 				<Button
 					x:Name="NewRecordButton"
-					Click="NewRecordButton_OnClick"
-					Margin="5">Создать новую запись</Button>
+					Click="NewRecordButton_OnClick" VerticalAlignment="Center" HorizontalContentAlignment="Center"
+					MinHeight="30" MinWidth="150" Margin="5">
+					Создать новую запись
+				</Button>
 				<Button
 					x:Name="DeleteRecordButton"
-					Margin="5"
+					Margin="5" VerticalAlignment="Center" HorizontalContentAlignment="Center"
+					MinHeight="30" MinWidth="150"
 					IsEnabled="{Binding Path=CurrentIndex, Converter={StaticResource CurrentIndexConverter}, UpdateSourceTrigger=PropertyChanged}"
 					Click="DeleteRecordButton_OnClick">Удалить текущую запись</Button>
 				<Label Margin="5">Номер записи</Label>
 				<ComboBox x:Name="comboBox1" Margin="5" VerticalContentAlignment="Center" MinWidth="90" SelectionChanged="ComboBox1_OnSelectionChanged"/>
-				<Button x:Name="ViewXmlFileButton" Margin="5" Click="ViewXmlFileButton_OnClick"
-				        IsEnabled="{Binding Path=CurrentIndex, Converter={StaticResource CurrentIndexConverter}, UpdateSourceTrigger=PropertyChanged}">Просмотреть xml файл</Button>
-				<Popup x:Name="XmlFilePopup" Placement="Bottom" VerticalOffset="10" PopupAnimation = "Slide" PlacementTarget="{Binding ElementName=ViewXmlFileButton}" StaysOpen="False">
+				<Button x:Name="ViewXmlFileButton" Margin="5" Click="ViewXmlFileButton_OnClick" VerticalAlignment="Center"
+				        HorizontalContentAlignment="Center"
+				        MinHeight="30" MinWidth="150"
+				        IsEnabled="{Binding Path=CurrentIndex, Converter={StaticResource CurrentIndexConverter}, UpdateSourceTrigger=PropertyChanged}">
+					Просмотреть xml файл
+				</Button>
+				<Popup x:Name="XmlFilePopup" Placement="Bottom" VerticalOffset="10" PopupAnimation="Slide"
+				       PlacementTarget="{Binding ElementName=ViewXmlFileButton}" StaysOpen="False">
 					<StackPanel>
 						<Border Width="800" Height="600" BorderBrush="Black" BorderThickness="1">
 							<local:XmlFileViewerUserControl x:Name="XmlFileViewerUserControl1"></local:XmlFileViewerUserControl>
@@ -49,7 +51,7 @@
 					</StackPanel>
 				</Popup>
 			</StackPanel>
-		</Border>
+		
 		<Label
 			Grid.Row="0"
 			Grid.Column="1"
@@ -62,7 +64,7 @@
 			Grid.Column="0"
 			Grid.Row="1"
 			Grid.ColumnSpan="3"
-			Grid.RowSpan="3" Margin="5"
+			Margin="5,2,0,0"
 			TabStripPlacement="Left" 
 			x:Name="RecordsTabControl">
 			<TabItem>
@@ -114,32 +116,39 @@
 				</TabItem.Content>
 			</TabItem>
 		</TabControl>
-		<Button
-			Content="Сформировать xml файл"
-			Grid.Column="0"
-			Grid.Row="4" 
-			HorizontalAlignment="Stretch"
-			VerticalAlignment="Stretch"
-			IsDefault="False"
-			x:Name="XmlFileButton"
-			Margin="5"
-			IsEnabled="{Binding Path=CurrentIndex, Converter={StaticResource CurrentIndexConverter}, UpdateSourceTrigger=PropertyChanged}"
-			Click="XmlFileButton_OnClick" />
-		<Button
-			Content="Сохранить файл поверки СИ"
-			Grid.Column="1"
-			Grid.Row="4"
-			x:Name="SaveXmlButton"
-			Margin="5"
-			Click="SaveXmlButton_OnClick" 
-			IsEnabled="{Binding Path=CurrentIndex, Converter={StaticResource CurrentIndexConverter}, UpdateSourceTrigger=PropertyChanged}"/>
-		<Button
-			Content="Вернуться на главный экран"
-			Grid.Column="2"
-			Grid.Row="4"
-			x:Name="BackToMainWindowButton"
-			Margin="5"
-			Click="BackToMainWindowButton_OnClick" />
+		
+			<StackPanel Grid.Row="2" Grid.Column="1" Margin="5,1,0,0" Orientation="Horizontal">
+					<Button
+                			Content="Сформировать xml файл"
+                			Grid.Column="0"
+                			Grid.Row="4" 
+                            VerticalAlignment="Center" HorizontalContentAlignment="Center"
+                            MinHeight="30" 
+                			IsDefault="False"
+                			x:Name="XmlFileButton"
+                			Margin="5"
+                			IsEnabled="{Binding Path=CurrentIndex, Converter={StaticResource CurrentIndexConverter}, UpdateSourceTrigger=PropertyChanged}"
+                			Click="XmlFileButton_OnClick" />
+                		<Button
+                			Content="Сохранить файл поверки СИ"
+                			Grid.Column="1"
+                			Grid.Row="4"
+                			x:Name="SaveXmlButton"
+                			Margin="5"
+                            VerticalAlignment="Center" HorizontalContentAlignment="Center"
+                            MinHeight="30" 
+                			Click="SaveXmlButton_OnClick" 
+                			IsEnabled="{Binding Path=CurrentIndex, Converter={StaticResource CurrentIndexConverter}, UpdateSourceTrigger=PropertyChanged}"/>
+                		<Button
+                			Content="Вернуться на главный экран"
+                			Grid.Column="2"
+                			Grid.Row="4"
+                			x:Name="BackToMainWindowButton"
+                            VerticalAlignment="Center" HorizontalContentAlignment="Center"
+                            MinHeight="30" 
+                			Margin="5"
+                			Click="BackToMainWindowButton_OnClick" />
+			</StackPanel>
 	</Grid>
 	<UserControl.Triggers>
 		<EventTrigger
