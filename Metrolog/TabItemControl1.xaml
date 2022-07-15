@@ -1,1110 +1,1163 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <UserControl
-	x:Class="Metrolog.TabItemControl1" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:sys="clr-namespace:System;assembly=mscorlib" xmlns:local="clr-namespace:Metrolog">
-	<UserControl.Resources>
-		<ObjectDataProvider
-			x:Key="rankFromEnum"
-			MethodName="GetValues"
-			ObjectType="{x:Type sys:Enum}">
-			<ObjectDataProvider.MethodParameters>
-				<x:Type
-					TypeName="local:rankEnum" />
-			</ObjectDataProvider.MethodParameters>
-		</ObjectDataProvider>
-		<local:EnumDescriptionConverter
-			x:Key="enumConverter" />
-		<local:BoolInverseConverter
-			x:Key="BoolInverseConverter"></local:BoolInverseConverter>
-		<local:YesNoToBooleanConverter
-			x:Key="YesNoToBooleanConverter" />
-		<local:EnumBooleanConverter
-			x:Key="enumBooleanConverter" />		
-		<local:ComparisonConverter
-			x:Key="ComparisonConverter" />
-		<local:mpConverter
-			x:Key="mpConverter"></local:mpConverter>		
-		<Style
-			TargetType="{x:Type RadioButton}"
-			x:Key="MyRadioButton">
-			<Style.Triggers>
-				<Trigger
-					Property="IsEnabled"
-					Value="False">
-					<Setter
-						Property="Foreground"
-						Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}" />
-				</Trigger>
-			</Style.Triggers>
-		</Style>
-		<Style
-			TargetType="{x:Type ComboBox}"
-			x:Key="MyComboBox">
-			<Style.Triggers>
-				<Trigger
-					Property="IsEnabled"
-					Value="False">
-					<Setter
-						Property="Foreground"
-						Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}" />
-				</Trigger>
-			</Style.Triggers>
-		</Style>
-		<ControlTemplate
-			x:Key="LazyExpanderTemplate"
-			TargetType="Expander">
-			<Border
-				BorderThickness="{TemplateBinding Border.BorderThickness}"
-				CornerRadius="3,3,3,3"
-				BorderBrush="{TemplateBinding Border.BorderBrush}"
-				Background="{TemplateBinding Panel.Background}"
-				SnapsToDevicePixels="True">
-				<DockPanel>
-					<DockPanel
-						DockPanel.Dock="Top"
-						Name="HeaderSite">
-						<ToggleButton
-							DockPanel.Dock="Right"
-							IsChecked="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=IsExpanded}"
-							Foreground="{TemplateBinding TextElement.Foreground}"
-							FontFamily="{TemplateBinding TextElement.FontFamily}"
-							FontSize="{TemplateBinding TextElement.FontSize}"
-							FontStretch="{TemplateBinding TextElement.FontStretch}"
-							FontStyle="{TemplateBinding TextElement.FontStyle}"
-							FontWeight="{TemplateBinding TextElement.FontWeight}"
-							HorizontalContentAlignment="{TemplateBinding Control.HorizontalContentAlignment}"
-							VerticalContentAlignment="{TemplateBinding Control.VerticalContentAlignment}"
-							Padding="{TemplateBinding Control.Padding}"
-							MinWidth="0"
-							MinHeight="0"
-							Margin="1,1,1,1">
-							<ToggleButton.Style>
-								<Style
-									TargetType="ToggleButton">
-									<Setter
-										Property="Control.Template">
-										<Setter.Value>
-											<ControlTemplate
-												TargetType="ToggleButton">
-												<Border
-													Padding="{TemplateBinding Control.Padding}">
-													<Grid
-														Background="#00FFFFFF"
-														SnapsToDevicePixels="False">
-														<Grid.ColumnDefinitions>
-															<ColumnDefinition
-																Width="19" />
-															<ColumnDefinition
-																Width="*" />
-														</Grid.ColumnDefinitions>
-														<Ellipse
-															Stroke="#FFA9A9A9"
-															Name="circle"
-															Width="19"
-															Height="19"
-															HorizontalAlignment="Center"
-															VerticalAlignment="Center" />
-														<Ellipse
-															Name="shadow"
-															Width="17"
-															Height="17"
-															HorizontalAlignment="Center"
-															VerticalAlignment="Center"
-															Visibility="Hidden" />
-														<Path
-															Data="M1,1.5L4.5,5 8,1.5"
-															Stroke="#FF666666"
-															StrokeThickness="2"
-															Name="arrow"
-															HorizontalAlignment="Center"
-															VerticalAlignment="Center"
-															SnapsToDevicePixels="False" />
-													</Grid>
-												</Border>
-												<ControlTemplate.Triggers>
-													<Trigger
-														Property="ToggleButton.IsChecked"
-														Value="True">
-														<Setter
-															Property="Path.Data"
-															TargetName="arrow">
-															<Setter.Value>
-																<StreamGeometry>M1,4.5L4.5,1 8,4.5</StreamGeometry>
-															</Setter.Value>
-														</Setter>
-													</Trigger>
-													<Trigger
-														Property="UIElement.IsMouseOver"
-														Value="True">
-														<Setter
-															Property="Shape.Stroke"
-															TargetName="circle">
-															<Setter.Value>
-																<SolidColorBrush>#FF666666</SolidColorBrush>
-															</Setter.Value>
-														</Setter>
-														<Setter
-															Property="Shape.Stroke"
-															TargetName="arrow">
-															<Setter.Value>
-																<SolidColorBrush>#FF222222</SolidColorBrush>
-															</Setter.Value>
-														</Setter>
-														<Setter
-															Property="UIElement.Visibility"
-															TargetName="shadow">
-															<Setter.Value>
-																<x:Static
-																	Member="Visibility.Visible" />
-															</Setter.Value>
-														</Setter>
-													</Trigger>
-												</ControlTemplate.Triggers>
-											</ControlTemplate>
-										</Setter.Value>
-									</Setter>
-								</Style>
-							</ToggleButton.Style>
-							<ToggleButton.FocusVisualStyle>
-								<Style
-									TargetType="IFrameworkInputElement">
-									<Setter
-										Property="Control.Template">
-										<Setter.Value>
-											<ControlTemplate>
-												<Border>
-													<Rectangle
-														Stroke="#FF000000"
-														StrokeThickness="1"
-														StrokeDashArray="1 2"
-														Margin="0,0,0,0"
-														SnapsToDevicePixels="True" />
-												</Border>
-											</ControlTemplate>
-										</Setter.Value>
-									</Setter>
-								</Style>
-							</ToggleButton.FocusVisualStyle>
-						</ToggleButton>
-						<ContentPresenter
-							RecognizesAccessKey="True"
-							Content="{TemplateBinding HeaderedContentControl.Header}"
-							ContentTemplate="{TemplateBinding HeaderedContentControl.HeaderTemplate}"
-							ContentStringFormat="{TemplateBinding HeaderedContentControl.HeaderStringFormat}"
-							Margin="4,0,0,0"
-							HorizontalAlignment="Left"
-							VerticalAlignment="Center"
-							SnapsToDevicePixels="True" />
-					</DockPanel>
-					<ContentPresenter
-						Content="{TemplateBinding ContentControl.Content}"
-						ContentTemplate="{TemplateBinding ContentControl.ContentTemplate}"
-						ContentStringFormat="{TemplateBinding ContentControl.ContentStringFormat}"
-						Name="ExpandSite"
-						Margin="{TemplateBinding Control.Padding}"
-						HorizontalAlignment="{TemplateBinding Control.HorizontalContentAlignment}"
-						VerticalAlignment="{TemplateBinding Control.VerticalContentAlignment}"
-						Visibility="Collapsed"
-						Focusable="False"
-						DockPanel.Dock="Bottom" />
-				</DockPanel>
-			</Border>
-			<ControlTemplate.Triggers>
-				<Trigger
-					Property="Expander.IsExpanded">
-					<Setter
-						Property="UIElement.Visibility"
-						TargetName="ExpandSite">
-						<Setter.Value>
-							<x:Static
-								Member="Visibility.Visible" />
-						</Setter.Value>
-					</Setter>
-					<Trigger.Value>
-						<sys:Boolean>True</sys:Boolean>
-					</Trigger.Value>
-				</Trigger>
-				<Trigger
-					Property="Expander.ExpandDirection"
-					Value="Right">
-					<Setter
-						Property="DockPanel.Dock"
-						TargetName="ExpandSite"
-						Value="Right" />
-					<Setter
-						Property="DockPanel.Dock"
-						TargetName="HeaderSite"
-						Value="Left" />
-					<Setter
-						Property="FrameworkElement.Style"
-						TargetName="HeaderSite">
-						<Setter.Value>
-							<Style
-								TargetType="ToggleButton">
-								<Setter
-									Property="Control.Template">
-									<Setter.Value>
-										<ControlTemplate
-											TargetType="ToggleButton">
-											<Border
-												Padding="{TemplateBinding Control.Padding}">
-												<Grid
-													Background="#00FFFFFF"
-													SnapsToDevicePixels="False">
-													<Grid.RowDefinitions>
-														<RowDefinition
-															Height="19" />
-														<RowDefinition
-															Height="*" />
-													</Grid.RowDefinitions>
-													<Grid>
-														<Grid.LayoutTransform>
-															<TransformGroup>
-																<TransformGroup.Children>
-																	<RotateTransform
-																		Angle="-90" />
-																</TransformGroup.Children>
-															</TransformGroup>
-														</Grid.LayoutTransform>
-														<Ellipse
-															Stroke="#FFA9A9A9"
-															Name="circle"
-															Width="19"
-															Height="19"
-															HorizontalAlignment="Center"
-															VerticalAlignment="Center" />
-														<Ellipse
-															Name="shadow"
-															Width="17"
-															Height="17"
-															HorizontalAlignment="Center"
-															VerticalAlignment="Center"
-															Visibility="Hidden" />
-														<Path
-															Data="M1,1.5L4.5,5 8,1.5"
-															Stroke="#FF666666"
-															StrokeThickness="2"
-															Name="arrow"
-															HorizontalAlignment="Center"
-															VerticalAlignment="Center"
-															SnapsToDevicePixels="False" />
-													</Grid>
-													<ContentPresenter
-														RecognizesAccessKey="True"
-														Content="{TemplateBinding ContentControl.Content}"
-														ContentTemplate="{TemplateBinding ContentControl.ContentTemplate}"
-														ContentStringFormat="{TemplateBinding ContentControl.ContentStringFormat}"
-														Margin="0,4,0,0"
-														HorizontalAlignment="Center"
-														VerticalAlignment="Top"
-														SnapsToDevicePixels="True"
-														Grid.Row="1" />
-												</Grid>
-											</Border>
-											<ControlTemplate.Triggers>
-												<Trigger
-													Property="ToggleButton.IsChecked">
-													<Setter
-														Property="Path.Data"
-														TargetName="arrow">
-														<Setter.Value>
-															<StreamGeometry>M1,4.5L4.5,1 8,4.5</StreamGeometry>
-														</Setter.Value>
-													</Setter>
-													<Trigger.Value>
-														<sys:Boolean>True</sys:Boolean>
-													</Trigger.Value>
-												</Trigger>
-												<Trigger
-													Property="UIElement.IsMouseOver">
-													<Setter
-														Property="Shape.Stroke"
-														TargetName="circle">
-														<Setter.Value>
-															<SolidColorBrush>#FF666666</SolidColorBrush>
-														</Setter.Value>
-													</Setter>
-													<Setter
-														Property="Shape.Stroke"
-														TargetName="arrow">
-														<Setter.Value>
-															<SolidColorBrush>#FF222222</SolidColorBrush>
-														</Setter.Value>
-													</Setter>
-													<Setter
-														Property="UIElement.Visibility"
-														TargetName="shadow">
-														<Setter.Value>
-															<x:Static
-																Member="Visibility.Visible" />
-														</Setter.Value>
-													</Setter>
-													<Trigger.Value>
-														<sys:Boolean>True</sys:Boolean>
-													</Trigger.Value>
-												</Trigger>
-											</ControlTemplate.Triggers>
-										</ControlTemplate>
-									</Setter.Value>
-								</Setter>
-							</Style>
-						</Setter.Value>
-					</Setter>
-				</Trigger>
-				<Trigger
-					Property="Expander.ExpandDirection">
-					<Setter
-						Property="DockPanel.Dock"
-						TargetName="ExpandSite"
-						Value="Top" />
-					<Setter
-						Property="DockPanel.Dock"
-						TargetName="HeaderSite"
-						Value="Bottom" />
-					<Setter
-						Property="FrameworkElement.Style"
-						TargetName="HeaderSite">
-						<Setter.Value>
-							<Style
-								TargetType="ToggleButton">
-								<Setter
-									Property="Control.Template">
-									<Setter.Value>
-										<ControlTemplate
-											TargetType="ToggleButton">
-											<Border
-												Padding="{TemplateBinding Control.Padding}">
-												<Grid
-													Background="#00FFFFFF"
-													SnapsToDevicePixels="False">
-													<Grid.ColumnDefinitions>
-														<ColumnDefinition
-															Width="19" />
-														<ColumnDefinition
-															Width="*" />
-													</Grid.ColumnDefinitions>
-													<Grid>
-														<Grid.LayoutTransform>
-															<TransformGroup>
-																<TransformGroup.Children>
-																	<RotateTransform
-																		Angle="180" />
-																</TransformGroup.Children>
-															</TransformGroup>
-														</Grid.LayoutTransform>
-														<Ellipse
-															Stroke="#FFA9A9A9"
-															Name="circle"
-															Width="19"
-															Height="19"
-															HorizontalAlignment="Center"
-															VerticalAlignment="Center" />
-														<Ellipse
-															Name="shadow"
-															Width="17"
-															Height="17"
-															HorizontalAlignment="Center"
-															VerticalAlignment="Center"
-															Visibility="Hidden" />
-														<Path
-															Data="M1,1.5L4.5,5 8,1.5"
-															Stroke="#FF666666"
-															StrokeThickness="2"
-															Name="arrow"
-															HorizontalAlignment="Center"
-															VerticalAlignment="Center"
-															SnapsToDevicePixels="False" />
-													</Grid>
-													<ContentPresenter
-														RecognizesAccessKey="True"
-														Content="{TemplateBinding ContentControl.Content}"
-														ContentTemplate="{TemplateBinding ContentControl.ContentTemplate}"
-														ContentStringFormat="{TemplateBinding ContentControl.ContentStringFormat}"
-														Margin="4,0,0,0"
-														HorizontalAlignment="Left"
-														VerticalAlignment="Center"
-														SnapsToDevicePixels="True"
-														Grid.Column="1" />
-												</Grid>
-											</Border>
-											<ControlTemplate.Triggers>
-												<Trigger
-													Property="ToggleButton.IsChecked">
-													<Setter
-														Property="Path.Data"
-														TargetName="arrow">
-														<Setter.Value>
-															<StreamGeometry>M1,4.5L4.5,1 8,4.5</StreamGeometry>
-														</Setter.Value>
-													</Setter>
-													<Trigger.Value>
-														<sys:Boolean>True</sys:Boolean>
-													</Trigger.Value>
-												</Trigger>
-												<Trigger
-													Property="UIElement.IsMouseOver">
-													<Setter
-														Property="Shape.Stroke"
-														TargetName="circle">
-														<Setter.Value>
-															<SolidColorBrush>#FF666666</SolidColorBrush>
-														</Setter.Value>
-													</Setter>
-													<Setter
-														Property="Shape.Stroke"
-														TargetName="arrow">
-														<Setter.Value>
-															<SolidColorBrush>#FF222222</SolidColorBrush>
-														</Setter.Value>
-													</Setter>
-													<Setter
-														Property="UIElement.Visibility"
-														TargetName="shadow">
-														<Setter.Value>
-															<x:Static
-																Member="Visibility.Visible" />
-														</Setter.Value>
-													</Setter>
-													<Trigger.Value>
-														<sys:Boolean>True</sys:Boolean>
-													</Trigger.Value>
-												</Trigger>
-											</ControlTemplate.Triggers>
-										</ControlTemplate>
-									</Setter.Value>
-								</Setter>
-							</Style>
-						</Setter.Value>
-					</Setter>
-					<Trigger.Value>
-						<x:Static
-							Member="ExpandDirection.Up" />
-					</Trigger.Value>
-				</Trigger>
-				<Trigger
-					Property="Expander.ExpandDirection">
-					<Setter
-						Property="DockPanel.Dock"
-						TargetName="ExpandSite">
-						<Setter.Value>
-							<x:Static
-								Member="Dock.Left" />
-						</Setter.Value>
-					</Setter>
-					<Setter
-						Property="DockPanel.Dock"
-						TargetName="HeaderSite">
-						<Setter.Value>
-							<x:Static
-								Member="Dock.Right" />
-						</Setter.Value>
-					</Setter>
-					<Setter
-						Property="FrameworkElement.Style"
-						TargetName="HeaderSite">
-						<Setter.Value>
-							<Style
-								TargetType="ToggleButton">
-								<Setter
-									Property="Control.Template">
-									<Setter.Value>
-										<ControlTemplate
-											TargetType="ToggleButton">
-											<Border
-												Padding="{TemplateBinding Control.Padding}">
-												<Grid
-													Background="#00FFFFFF"
-													SnapsToDevicePixels="False">
-													<Grid.RowDefinitions>
-														<RowDefinition
-															Height="19" />
-														<RowDefinition
-															Height="*" />
-													</Grid.RowDefinitions>
-													<Grid>
-														<Grid.LayoutTransform>
-															<TransformGroup>
-																<TransformGroup.Children>
-																	<RotateTransform
-																		Angle="90" />
-																</TransformGroup.Children>
-															</TransformGroup>
-														</Grid.LayoutTransform>
-														<Ellipse
-															Stroke="#FFA9A9A9"
-															Name="circle"
-															Width="19"
-															Height="19"
-															HorizontalAlignment="Center"
-															VerticalAlignment="Center" />
-														<Ellipse
-															Name="shadow"
-															Width="17"
-															Height="17"
-															HorizontalAlignment="Center"
-															VerticalAlignment="Center"
-															Visibility="Hidden" />
-														<Path
-															Data="M1,1.5L4.5,5 8,1.5"
-															Stroke="#FF666666"
-															StrokeThickness="2"
-															Name="arrow"
-															HorizontalAlignment="Center"
-															VerticalAlignment="Center"
-															SnapsToDevicePixels="False" />
-													</Grid>
-													<ContentPresenter
-														RecognizesAccessKey="True"
-														Content="{TemplateBinding ContentControl.Content}"
-														ContentTemplate="{TemplateBinding ContentControl.ContentTemplate}"
-														ContentStringFormat="{TemplateBinding ContentControl.ContentStringFormat}"
-														Margin="0,4,0,0"
-														HorizontalAlignment="Center"
-														VerticalAlignment="Top"
-														SnapsToDevicePixels="True"
-														Grid.Row="1" />
-												</Grid>
-											</Border>
-											<ControlTemplate.Triggers>
-												<Trigger
-													Property="ToggleButton.IsChecked">
-													<Setter
-														Property="Path.Data"
-														TargetName="arrow">
-														<Setter.Value>
-															<StreamGeometry>M1,4.5L4.5,1 8,4.5</StreamGeometry>
-														</Setter.Value>
-													</Setter>
-													<Trigger.Value>
-														<sys:Boolean>True</sys:Boolean>
-													</Trigger.Value>
-												</Trigger>
-												<Trigger
-													Property="UIElement.IsMouseOver">
-													<Setter
-														Property="Shape.Stroke"
-														TargetName="circle">
-														<Setter.Value>
-															<SolidColorBrush>#FF666666</SolidColorBrush>
-														</Setter.Value>
-													</Setter>
-													<Setter
-														Property="Shape.Stroke"
-														TargetName="arrow">
-														<Setter.Value>
-															<SolidColorBrush>#FF222222</SolidColorBrush>
-														</Setter.Value>
-													</Setter>
-													<Setter
-														Property="UIElement.Visibility"
-														TargetName="shadow">
-														<Setter.Value>
-															<x:Static
-																Member="Visibility.Visible" />
-														</Setter.Value>
-													</Setter>
-													<Trigger.Value>
-														<sys:Boolean>True</sys:Boolean>
-													</Trigger.Value>
-												</Trigger>
-											</ControlTemplate.Triggers>
-										</ControlTemplate>
-									</Setter.Value>
-								</Setter>
-							</Style>
-						</Setter.Value>
-					</Setter>
-					<Trigger.Value>
-						<x:Static
-							Member="ExpandDirection.Left" />
-					</Trigger.Value>
-				</Trigger>
-				<Trigger
-					Property="UIElement.IsEnabled">
-					<Setter
-						Property="TextElement.Foreground">
-						<Setter.Value>
-							<DynamicResource
-								ResourceKey="{x:Static SystemColors.GrayTextBrushKey}" />
-						</Setter.Value>
-					</Setter>
-					<Trigger.Value>
-						<sys:Boolean>False</sys:Boolean>
-					</Trigger.Value>
-				</Trigger>
-			</ControlTemplate.Triggers>
-		</ControlTemplate>
-		<Style TargetType="TextBox">
-			<Style.Triggers>
-				<Trigger Property="Validation.HasError" Value="True">
-					<Setter Property="ToolTip"
-					        Value="{Binding RelativeSource={RelativeSource Self},
+    x:Class="Metrolog.TabItemControl1" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:sys="clr-namespace:System;assembly=mscorlib"
+    xmlns:local="clr-namespace:Metrolog">
+    <UserControl.Resources>
+        <ObjectDataProvider
+            x:Key="rankFromEnum"
+            MethodName="GetValues"
+            ObjectType="{x:Type sys:Enum}">
+            <ObjectDataProvider.MethodParameters>
+                <x:Type
+                    TypeName="local:rankEnum" />
+            </ObjectDataProvider.MethodParameters>
+        </ObjectDataProvider>
+        <local:EnumDescriptionConverter
+            x:Key="enumConverter" />
+        <local:BoolInverseConverter
+            x:Key="BoolInverseConverter">
+        </local:BoolInverseConverter>
+        <local:YesNoToBooleanConverter
+            x:Key="YesNoToBooleanConverter" />
+        <local:EnumBooleanConverter
+            x:Key="enumBooleanConverter" />
+        <local:ComparisonConverter
+            x:Key="ComparisonConverter" />
+        <local:mpConverter
+            x:Key="mpConverter">
+        </local:mpConverter>
+        <Style
+            TargetType="{x:Type RadioButton}"
+            x:Key="MyRadioButton">
+            <Style.Triggers>
+                <Trigger
+                    Property="IsEnabled"
+                    Value="False">
+                    <Setter
+                        Property="Foreground"
+                        Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}" />
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+        <Style
+            TargetType="{x:Type ComboBox}"
+            x:Key="MyComboBox">
+            <Style.Triggers>
+                <Trigger
+                    Property="IsEnabled"
+                    Value="False">
+                    <Setter
+                        Property="Foreground"
+                        Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}" />
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+        <ControlTemplate
+            x:Key="LazyExpanderTemplate"
+            TargetType="Expander">
+            <Border
+                BorderThickness="{TemplateBinding Border.BorderThickness}"
+                CornerRadius="3,3,3,3"
+                BorderBrush="{TemplateBinding Border.BorderBrush}"
+                Background="{TemplateBinding Panel.Background}"
+                SnapsToDevicePixels="True">
+                <DockPanel>
+                    <DockPanel
+                        DockPanel.Dock="Top"
+                        Name="HeaderSite">
+                        <ToggleButton
+                            DockPanel.Dock="Right"
+                            IsChecked="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=IsExpanded}"
+                            Foreground="{TemplateBinding TextElement.Foreground}"
+                            FontFamily="{TemplateBinding TextElement.FontFamily}"
+                            FontSize="{TemplateBinding TextElement.FontSize}"
+                            FontStretch="{TemplateBinding TextElement.FontStretch}"
+                            FontStyle="{TemplateBinding TextElement.FontStyle}"
+                            FontWeight="{TemplateBinding TextElement.FontWeight}"
+                            HorizontalContentAlignment="{TemplateBinding Control.HorizontalContentAlignment}"
+                            VerticalContentAlignment="{TemplateBinding Control.VerticalContentAlignment}"
+                            Padding="{TemplateBinding Control.Padding}"
+                            MinWidth="0"
+                            MinHeight="0"
+                            Margin="1,1,1,1">
+                            <ToggleButton.Style>
+                                <Style
+                                    TargetType="ToggleButton">
+                                    <Setter
+                                        Property="Control.Template">
+                                        <Setter.Value>
+                                            <ControlTemplate
+                                                TargetType="ToggleButton">
+                                                <Border
+                                                    Padding="{TemplateBinding Control.Padding}">
+                                                    <Grid
+                                                        Background="#00FFFFFF"
+                                                        SnapsToDevicePixels="False">
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition
+                                                                Width="19" />
+                                                            <ColumnDefinition
+                                                                Width="*" />
+                                                        </Grid.ColumnDefinitions>
+                                                        <Ellipse
+                                                            Stroke="#FFA9A9A9"
+                                                            Name="circle"
+                                                            Width="19"
+                                                            Height="19"
+                                                            HorizontalAlignment="Center"
+                                                            VerticalAlignment="Center" />
+                                                        <Ellipse
+                                                            Name="shadow"
+                                                            Width="17"
+                                                            Height="17"
+                                                            HorizontalAlignment="Center"
+                                                            VerticalAlignment="Center"
+                                                            Visibility="Hidden" />
+                                                        <Path
+                                                            Data="M1,1.5L4.5,5 8,1.5"
+                                                            Stroke="#FF666666"
+                                                            StrokeThickness="2"
+                                                            Name="arrow"
+                                                            HorizontalAlignment="Center"
+                                                            VerticalAlignment="Center"
+                                                            SnapsToDevicePixels="False" />
+                                                    </Grid>
+                                                </Border>
+                                                <ControlTemplate.Triggers>
+                                                    <Trigger
+                                                        Property="ToggleButton.IsChecked"
+                                                        Value="True">
+                                                        <Setter
+                                                            Property="Path.Data"
+                                                            TargetName="arrow">
+                                                            <Setter.Value>
+                                                                <StreamGeometry>M1,4.5L4.5,1 8,4.5</StreamGeometry>
+                                                            </Setter.Value>
+                                                        </Setter>
+                                                    </Trigger>
+                                                    <Trigger
+                                                        Property="UIElement.IsMouseOver"
+                                                        Value="True">
+                                                        <Setter
+                                                            Property="Shape.Stroke"
+                                                            TargetName="circle">
+                                                            <Setter.Value>
+                                                                <SolidColorBrush>#FF666666</SolidColorBrush>
+                                                            </Setter.Value>
+                                                        </Setter>
+                                                        <Setter
+                                                            Property="Shape.Stroke"
+                                                            TargetName="arrow">
+                                                            <Setter.Value>
+                                                                <SolidColorBrush>#FF222222</SolidColorBrush>
+                                                            </Setter.Value>
+                                                        </Setter>
+                                                        <Setter
+                                                            Property="UIElement.Visibility"
+                                                            TargetName="shadow">
+                                                            <Setter.Value>
+                                                                <x:Static
+                                                                    Member="Visibility.Visible" />
+                                                            </Setter.Value>
+                                                        </Setter>
+                                                    </Trigger>
+                                                </ControlTemplate.Triggers>
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Style>
+                            </ToggleButton.Style>
+                            <ToggleButton.FocusVisualStyle>
+                                <Style
+                                    TargetType="IFrameworkInputElement">
+                                    <Setter
+                                        Property="Control.Template">
+                                        <Setter.Value>
+                                            <ControlTemplate>
+                                                <Border>
+                                                    <Rectangle
+                                                        Stroke="#FF000000"
+                                                        StrokeThickness="1"
+                                                        StrokeDashArray="1 2"
+                                                        Margin="0,0,0,0"
+                                                        SnapsToDevicePixels="True" />
+                                                </Border>
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Style>
+                            </ToggleButton.FocusVisualStyle>
+                        </ToggleButton>
+                        <ContentPresenter
+                            RecognizesAccessKey="True"
+                            Content="{TemplateBinding HeaderedContentControl.Header}"
+                            ContentTemplate="{TemplateBinding HeaderedContentControl.HeaderTemplate}"
+                            ContentStringFormat="{TemplateBinding HeaderedContentControl.HeaderStringFormat}"
+                            Margin="4,0,0,0"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Center"
+                            SnapsToDevicePixels="True" />
+                    </DockPanel>
+                    <ContentPresenter
+                        Content="{TemplateBinding ContentControl.Content}"
+                        ContentTemplate="{TemplateBinding ContentControl.ContentTemplate}"
+                        ContentStringFormat="{TemplateBinding ContentControl.ContentStringFormat}"
+                        Name="ExpandSite"
+                        Margin="{TemplateBinding Control.Padding}"
+                        HorizontalAlignment="{TemplateBinding Control.HorizontalContentAlignment}"
+                        VerticalAlignment="{TemplateBinding Control.VerticalContentAlignment}"
+                        Visibility="Collapsed"
+                        Focusable="False"
+                        DockPanel.Dock="Bottom" />
+                </DockPanel>
+            </Border>
+            <ControlTemplate.Triggers>
+                <Trigger
+                    Property="Expander.IsExpanded">
+                    <Setter
+                        Property="UIElement.Visibility"
+                        TargetName="ExpandSite">
+                        <Setter.Value>
+                            <x:Static
+                                Member="Visibility.Visible" />
+                        </Setter.Value>
+                    </Setter>
+                    <Trigger.Value>
+                        <sys:Boolean>True</sys:Boolean>
+                    </Trigger.Value>
+                </Trigger>
+                <Trigger
+                    Property="Expander.ExpandDirection"
+                    Value="Right">
+                    <Setter
+                        Property="DockPanel.Dock"
+                        TargetName="ExpandSite"
+                        Value="Right" />
+                    <Setter
+                        Property="DockPanel.Dock"
+                        TargetName="HeaderSite"
+                        Value="Left" />
+                    <Setter
+                        Property="FrameworkElement.Style"
+                        TargetName="HeaderSite">
+                        <Setter.Value>
+                            <Style
+                                TargetType="ToggleButton">
+                                <Setter
+                                    Property="Control.Template">
+                                    <Setter.Value>
+                                        <ControlTemplate
+                                            TargetType="ToggleButton">
+                                            <Border
+                                                Padding="{TemplateBinding Control.Padding}">
+                                                <Grid
+                                                    Background="#00FFFFFF"
+                                                    SnapsToDevicePixels="False">
+                                                    <Grid.RowDefinitions>
+                                                        <RowDefinition
+                                                            Height="19" />
+                                                        <RowDefinition
+                                                            Height="*" />
+                                                    </Grid.RowDefinitions>
+                                                    <Grid>
+                                                        <Grid.LayoutTransform>
+                                                            <TransformGroup>
+                                                                <TransformGroup.Children>
+                                                                    <RotateTransform
+                                                                        Angle="-90" />
+                                                                </TransformGroup.Children>
+                                                            </TransformGroup>
+                                                        </Grid.LayoutTransform>
+                                                        <Ellipse
+                                                            Stroke="#FFA9A9A9"
+                                                            Name="circle"
+                                                            Width="19"
+                                                            Height="19"
+                                                            HorizontalAlignment="Center"
+                                                            VerticalAlignment="Center" />
+                                                        <Ellipse
+                                                            Name="shadow"
+                                                            Width="17"
+                                                            Height="17"
+                                                            HorizontalAlignment="Center"
+                                                            VerticalAlignment="Center"
+                                                            Visibility="Hidden" />
+                                                        <Path
+                                                            Data="M1,1.5L4.5,5 8,1.5"
+                                                            Stroke="#FF666666"
+                                                            StrokeThickness="2"
+                                                            Name="arrow"
+                                                            HorizontalAlignment="Center"
+                                                            VerticalAlignment="Center"
+                                                            SnapsToDevicePixels="False" />
+                                                    </Grid>
+                                                    <ContentPresenter
+                                                        RecognizesAccessKey="True"
+                                                        Content="{TemplateBinding ContentControl.Content}"
+                                                        ContentTemplate="{TemplateBinding ContentControl.ContentTemplate}"
+                                                        ContentStringFormat="{TemplateBinding ContentControl.ContentStringFormat}"
+                                                        Margin="0,4,0,0"
+                                                        HorizontalAlignment="Center"
+                                                        VerticalAlignment="Top"
+                                                        SnapsToDevicePixels="True"
+                                                        Grid.Row="1" />
+                                                </Grid>
+                                            </Border>
+                                            <ControlTemplate.Triggers>
+                                                <Trigger
+                                                    Property="ToggleButton.IsChecked">
+                                                    <Setter
+                                                        Property="Path.Data"
+                                                        TargetName="arrow">
+                                                        <Setter.Value>
+                                                            <StreamGeometry>M1,4.5L4.5,1 8,4.5</StreamGeometry>
+                                                        </Setter.Value>
+                                                    </Setter>
+                                                    <Trigger.Value>
+                                                        <sys:Boolean>True</sys:Boolean>
+                                                    </Trigger.Value>
+                                                </Trigger>
+                                                <Trigger
+                                                    Property="UIElement.IsMouseOver">
+                                                    <Setter
+                                                        Property="Shape.Stroke"
+                                                        TargetName="circle">
+                                                        <Setter.Value>
+                                                            <SolidColorBrush>#FF666666</SolidColorBrush>
+                                                        </Setter.Value>
+                                                    </Setter>
+                                                    <Setter
+                                                        Property="Shape.Stroke"
+                                                        TargetName="arrow">
+                                                        <Setter.Value>
+                                                            <SolidColorBrush>#FF222222</SolidColorBrush>
+                                                        </Setter.Value>
+                                                    </Setter>
+                                                    <Setter
+                                                        Property="UIElement.Visibility"
+                                                        TargetName="shadow">
+                                                        <Setter.Value>
+                                                            <x:Static
+                                                                Member="Visibility.Visible" />
+                                                        </Setter.Value>
+                                                    </Setter>
+                                                    <Trigger.Value>
+                                                        <sys:Boolean>True</sys:Boolean>
+                                                    </Trigger.Value>
+                                                </Trigger>
+                                            </ControlTemplate.Triggers>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                        </Setter.Value>
+                    </Setter>
+                </Trigger>
+                <Trigger
+                    Property="Expander.ExpandDirection">
+                    <Setter
+                        Property="DockPanel.Dock"
+                        TargetName="ExpandSite"
+                        Value="Top" />
+                    <Setter
+                        Property="DockPanel.Dock"
+                        TargetName="HeaderSite"
+                        Value="Bottom" />
+                    <Setter
+                        Property="FrameworkElement.Style"
+                        TargetName="HeaderSite">
+                        <Setter.Value>
+                            <Style
+                                TargetType="ToggleButton">
+                                <Setter
+                                    Property="Control.Template">
+                                    <Setter.Value>
+                                        <ControlTemplate
+                                            TargetType="ToggleButton">
+                                            <Border
+                                                Padding="{TemplateBinding Control.Padding}">
+                                                <Grid
+                                                    Background="#00FFFFFF"
+                                                    SnapsToDevicePixels="False">
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition
+                                                            Width="19" />
+                                                        <ColumnDefinition
+                                                            Width="*" />
+                                                    </Grid.ColumnDefinitions>
+                                                    <Grid>
+                                                        <Grid.LayoutTransform>
+                                                            <TransformGroup>
+                                                                <TransformGroup.Children>
+                                                                    <RotateTransform
+                                                                        Angle="180" />
+                                                                </TransformGroup.Children>
+                                                            </TransformGroup>
+                                                        </Grid.LayoutTransform>
+                                                        <Ellipse
+                                                            Stroke="#FFA9A9A9"
+                                                            Name="circle"
+                                                            Width="19"
+                                                            Height="19"
+                                                            HorizontalAlignment="Center"
+                                                            VerticalAlignment="Center" />
+                                                        <Ellipse
+                                                            Name="shadow"
+                                                            Width="17"
+                                                            Height="17"
+                                                            HorizontalAlignment="Center"
+                                                            VerticalAlignment="Center"
+                                                            Visibility="Hidden" />
+                                                        <Path
+                                                            Data="M1,1.5L4.5,5 8,1.5"
+                                                            Stroke="#FF666666"
+                                                            StrokeThickness="2"
+                                                            Name="arrow"
+                                                            HorizontalAlignment="Center"
+                                                            VerticalAlignment="Center"
+                                                            SnapsToDevicePixels="False" />
+                                                    </Grid>
+                                                    <ContentPresenter
+                                                        RecognizesAccessKey="True"
+                                                        Content="{TemplateBinding ContentControl.Content}"
+                                                        ContentTemplate="{TemplateBinding ContentControl.ContentTemplate}"
+                                                        ContentStringFormat="{TemplateBinding ContentControl.ContentStringFormat}"
+                                                        Margin="4,0,0,0"
+                                                        HorizontalAlignment="Left"
+                                                        VerticalAlignment="Center"
+                                                        SnapsToDevicePixels="True"
+                                                        Grid.Column="1" />
+                                                </Grid>
+                                            </Border>
+                                            <ControlTemplate.Triggers>
+                                                <Trigger
+                                                    Property="ToggleButton.IsChecked">
+                                                    <Setter
+                                                        Property="Path.Data"
+                                                        TargetName="arrow">
+                                                        <Setter.Value>
+                                                            <StreamGeometry>M1,4.5L4.5,1 8,4.5</StreamGeometry>
+                                                        </Setter.Value>
+                                                    </Setter>
+                                                    <Trigger.Value>
+                                                        <sys:Boolean>True</sys:Boolean>
+                                                    </Trigger.Value>
+                                                </Trigger>
+                                                <Trigger
+                                                    Property="UIElement.IsMouseOver">
+                                                    <Setter
+                                                        Property="Shape.Stroke"
+                                                        TargetName="circle">
+                                                        <Setter.Value>
+                                                            <SolidColorBrush>#FF666666</SolidColorBrush>
+                                                        </Setter.Value>
+                                                    </Setter>
+                                                    <Setter
+                                                        Property="Shape.Stroke"
+                                                        TargetName="arrow">
+                                                        <Setter.Value>
+                                                            <SolidColorBrush>#FF222222</SolidColorBrush>
+                                                        </Setter.Value>
+                                                    </Setter>
+                                                    <Setter
+                                                        Property="UIElement.Visibility"
+                                                        TargetName="shadow">
+                                                        <Setter.Value>
+                                                            <x:Static
+                                                                Member="Visibility.Visible" />
+                                                        </Setter.Value>
+                                                    </Setter>
+                                                    <Trigger.Value>
+                                                        <sys:Boolean>True</sys:Boolean>
+                                                    </Trigger.Value>
+                                                </Trigger>
+                                            </ControlTemplate.Triggers>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                        </Setter.Value>
+                    </Setter>
+                    <Trigger.Value>
+                        <x:Static
+                            Member="ExpandDirection.Up" />
+                    </Trigger.Value>
+                </Trigger>
+                <Trigger
+                    Property="Expander.ExpandDirection">
+                    <Setter
+                        Property="DockPanel.Dock"
+                        TargetName="ExpandSite">
+                        <Setter.Value>
+                            <x:Static
+                                Member="Dock.Left" />
+                        </Setter.Value>
+                    </Setter>
+                    <Setter
+                        Property="DockPanel.Dock"
+                        TargetName="HeaderSite">
+                        <Setter.Value>
+                            <x:Static
+                                Member="Dock.Right" />
+                        </Setter.Value>
+                    </Setter>
+                    <Setter
+                        Property="FrameworkElement.Style"
+                        TargetName="HeaderSite">
+                        <Setter.Value>
+                            <Style
+                                TargetType="ToggleButton">
+                                <Setter
+                                    Property="Control.Template">
+                                    <Setter.Value>
+                                        <ControlTemplate
+                                            TargetType="ToggleButton">
+                                            <Border
+                                                Padding="{TemplateBinding Control.Padding}">
+                                                <Grid
+                                                    Background="#00FFFFFF"
+                                                    SnapsToDevicePixels="False">
+                                                    <Grid.RowDefinitions>
+                                                        <RowDefinition
+                                                            Height="19" />
+                                                        <RowDefinition
+                                                            Height="*" />
+                                                    </Grid.RowDefinitions>
+                                                    <Grid>
+                                                        <Grid.LayoutTransform>
+                                                            <TransformGroup>
+                                                                <TransformGroup.Children>
+                                                                    <RotateTransform
+                                                                        Angle="90" />
+                                                                </TransformGroup.Children>
+                                                            </TransformGroup>
+                                                        </Grid.LayoutTransform>
+                                                        <Ellipse
+                                                            Stroke="#FFA9A9A9"
+                                                            Name="circle"
+                                                            Width="19"
+                                                            Height="19"
+                                                            HorizontalAlignment="Center"
+                                                            VerticalAlignment="Center" />
+                                                        <Ellipse
+                                                            Name="shadow"
+                                                            Width="17"
+                                                            Height="17"
+                                                            HorizontalAlignment="Center"
+                                                            VerticalAlignment="Center"
+                                                            Visibility="Hidden" />
+                                                        <Path
+                                                            Data="M1,1.5L4.5,5 8,1.5"
+                                                            Stroke="#FF666666"
+                                                            StrokeThickness="2"
+                                                            Name="arrow"
+                                                            HorizontalAlignment="Center"
+                                                            VerticalAlignment="Center"
+                                                            SnapsToDevicePixels="False" />
+                                                    </Grid>
+                                                    <ContentPresenter
+                                                        RecognizesAccessKey="True"
+                                                        Content="{TemplateBinding ContentControl.Content}"
+                                                        ContentTemplate="{TemplateBinding ContentControl.ContentTemplate}"
+                                                        ContentStringFormat="{TemplateBinding ContentControl.ContentStringFormat}"
+                                                        Margin="0,4,0,0"
+                                                        HorizontalAlignment="Center"
+                                                        VerticalAlignment="Top"
+                                                        SnapsToDevicePixels="True"
+                                                        Grid.Row="1" />
+                                                </Grid>
+                                            </Border>
+                                            <ControlTemplate.Triggers>
+                                                <Trigger
+                                                    Property="ToggleButton.IsChecked">
+                                                    <Setter
+                                                        Property="Path.Data"
+                                                        TargetName="arrow">
+                                                        <Setter.Value>
+                                                            <StreamGeometry>M1,4.5L4.5,1 8,4.5</StreamGeometry>
+                                                        </Setter.Value>
+                                                    </Setter>
+                                                    <Trigger.Value>
+                                                        <sys:Boolean>True</sys:Boolean>
+                                                    </Trigger.Value>
+                                                </Trigger>
+                                                <Trigger
+                                                    Property="UIElement.IsMouseOver">
+                                                    <Setter
+                                                        Property="Shape.Stroke"
+                                                        TargetName="circle">
+                                                        <Setter.Value>
+                                                            <SolidColorBrush>#FF666666</SolidColorBrush>
+                                                        </Setter.Value>
+                                                    </Setter>
+                                                    <Setter
+                                                        Property="Shape.Stroke"
+                                                        TargetName="arrow">
+                                                        <Setter.Value>
+                                                            <SolidColorBrush>#FF222222</SolidColorBrush>
+                                                        </Setter.Value>
+                                                    </Setter>
+                                                    <Setter
+                                                        Property="UIElement.Visibility"
+                                                        TargetName="shadow">
+                                                        <Setter.Value>
+                                                            <x:Static
+                                                                Member="Visibility.Visible" />
+                                                        </Setter.Value>
+                                                    </Setter>
+                                                    <Trigger.Value>
+                                                        <sys:Boolean>True</sys:Boolean>
+                                                    </Trigger.Value>
+                                                </Trigger>
+                                            </ControlTemplate.Triggers>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                        </Setter.Value>
+                    </Setter>
+                    <Trigger.Value>
+                        <x:Static
+                            Member="ExpandDirection.Left" />
+                    </Trigger.Value>
+                </Trigger>
+                <Trigger
+                    Property="UIElement.IsEnabled">
+                    <Setter
+                        Property="TextElement.Foreground">
+                        <Setter.Value>
+                            <DynamicResource
+                                ResourceKey="{x:Static SystemColors.GrayTextBrushKey}" />
+                        </Setter.Value>
+                    </Setter>
+                    <Trigger.Value>
+                        <sys:Boolean>False</sys:Boolean>
+                    </Trigger.Value>
+                </Trigger>
+            </ControlTemplate.Triggers>
+        </ControlTemplate>
+        <Style TargetType="TextBox">
+            <Style.Triggers>
+                <Trigger Property="Validation.HasError" Value="True">
+                    <Setter Property="ToolTip"
+                            Value="{Binding RelativeSource={RelativeSource Self},
 													 Path=(Validation.Errors)[0].ErrorContent}" />
-					<!--<Setter Property="Foreground" Value="Red" />-->
-				</Trigger>
-			</Style.Triggers>
-		</Style>
-	</UserControl.Resources>
-	<Grid
-		Grid.IsSharedSizeScope="True">
-		<Grid.RowDefinitions>
-			<RowDefinition Height="Auto"></RowDefinition>
-			<RowDefinition Height="Auto"></RowDefinition>
-		</Grid.RowDefinitions>
-		
-		<Expander
-			Template="{StaticResource LazyExpanderTemplate}"
-			Grid.Row="0"
-			BorderBrush="Chocolate"
-			BorderThickness="1"
-			IsExpanded="True">
-			<Expander.Header>
-				<StackPanel
-					Orientation="Horizontal">
-					<!--<RadioButton x:Name="etaMIRadioButton">СИ, применяемое в качестве эталона</RadioButton>!-->
-					<RadioButton
-						x:Name="etaMIRadioButton"
-						GroupName="1.1.1.1"
-						VerticalAlignment="Center"
-						VerticalContentAlignment="Center"
-						IsChecked="{Binding Path=Type, Converter={StaticResource enumBooleanConverter}, ConverterParameter=etaMI, UpdateSourceTrigger=PropertyChanged}"
-						FontSize="20">СИ, применяемое в качестве эталона</RadioButton>
-				</StackPanel>
-			</Expander.Header>
-			<Expander.Content>
-		
-		
-				<StackPanel
-					IsEnabled="{Binding IsChecked, ElementName=etaMIRadioButton}">
-					<GroupBox>
-						<GroupBox.Header>
-							<RadioButton
-								x:Name="primaryRecRadioButton"
-								GroupName="1.1.1.1.1" FontWeight="SemiBold"
-								IsChecked="{Binding Path=Type, Converter={StaticResource enumBooleanConverter}, ConverterParameter=primaryRec}">Первая поверка СИ, применяемого в качестве эталона Раздел заполняется, если СИ отсутствует в Перечне СИ, применяемых в качестве эталонов</RadioButton>
-						</GroupBox.Header>
-						<StackPanel
-							IsEnabled="{Binding IsChecked, ElementName=primaryRecRadioButton}">
-							<Grid>
-								<Grid.RowDefinitions>
-									<RowDefinition
-										Height="Auto"
-										SharedSizeGroup="myGroupHeight"></RowDefinition>
-									<RowDefinition></RowDefinition>
-									<RowDefinition></RowDefinition>
-									<RowDefinition></RowDefinition>
-									<RowDefinition></RowDefinition>
-								</Grid.RowDefinitions>
-								<Grid.ColumnDefinitions>
-									<ColumnDefinition
-										Width="Auto" SharedSizeGroup="myGroupWidth"/>
-									<ColumnDefinition />
-								</Grid.ColumnDefinitions>
-								
-								<Label
-									Grid.Row="0"
-									Grid.Column="0"
-									Margin="0,5,0,0">Номер в Госреестре утвержденного типа СИ</Label>								
-								<TextBox
-									Grid.Row="0"
-									Grid.Column="1"
-									Margin="0,5,0,0"
-									x:Name="mitypeNumber_1_TextBox"
-									MaxLength="32"/>								
-								<Label
-									Grid.Row="1"
-									Grid.Column="0"
-									Margin="0,5,0,0">Модификация СИ</Label>
-								<AdornerDecorator Grid.Row="1"
-									Grid.Column="1">
-								<TextBox
-									Grid.Row="1"
-									Grid.Column="1"
-									Margin="0,5,0,0"
-									x:Name="modification_1_TextBox"
-									MaxLength="128"/>
-								</AdornerDecorator>
-								<Label
-									Grid.Row="2"
-									Grid.Column="0"
-									Margin="0,5,0,0">Заводской номер СИ</Label>
-								<TextBox
-									Grid.Row="2"
-									Grid.Column="1"
-									Margin="0,5,0,0"
-									x:Name="manufactureNum_1_TextBox"
-									MaxLength="128" />
-								<Label
-									Grid.Row="3"
-									Grid.Column="0"
-									Margin="0,5,0,0">Год выпуска СИ</Label>
-								<AdornerDecorator Grid.Row="3" Grid.Column="1">
-								<TextBox
-									Grid.Row="3"
-									Grid.Column="1"
-									Margin="0,5,0,0"
-									x:Name="manufactureYearTextBox1"/>
-								</AdornerDecorator>
-								<Label
-									Grid.Row="4"
-									Grid.Column="0"
-									Margin="0,5,0,0">Поверитель является владельцем СИ, применяемого в качестве эталона</Label>
-								<ComboBox
-									Grid.Row="4"
-									Grid.Column="1" MinWidth="250" HorizontalAlignment="Left"
-									Margin="0,5,0,0"
-									x:Name="isOwnerComboBox"
-									SelectedIndex="0">
-									<ComboBox.ItemTemplate>
-										<DataTemplate>
-											<TextBlock
-												Text="{Binding Converter={StaticResource YesNoToBooleanConverter}}" />
-										</DataTemplate>
-									</ComboBox.ItemTemplate>
-									<ComboBox.Items>
-										<sys:Boolean>True</sys:Boolean>
-										<sys:Boolean>False</sys:Boolean>
-									</ComboBox.Items>
-								</ComboBox>
-							</Grid>
-							<GroupBox>
-								<GroupBox.Header>
-									<RadioButton
-										x:Name="psRadioButton"
-										Margin="0,5,0,0" GroupName="1.1.1.1.1.6" FontWeight="SemiBold"
-										IsChecked="{Binding Path=IsPS, UpdateSourceTrigger=PropertyChanged}">							
-									Поверочная схема</RadioButton>
-								</GroupBox.Header>
-								<Grid
-									IsEnabled="{Binding IsChecked, ElementName=psRadioButton}">
-									<Grid.ColumnDefinitions>
-										<ColumnDefinition
-											Width="Auto" />
-										<ColumnDefinition />
-										<ColumnDefinition
-											Width="*" />
-										<ColumnDefinition />
-									</Grid.ColumnDefinitions>
-									<Grid.RowDefinitions>										
-										<RowDefinition
-											Height="Auto"
-											SharedSizeGroup="myGroupHeight1" />
-										<RowDefinition
-											Height="Auto"
-											SharedSizeGroup="myGroupHeight1" />
-										<RowDefinition
-											Height="Auto"
-											SharedSizeGroup="myGroupHeight1" />										
-									</Grid.RowDefinitions>
-									<StackPanel
-										Grid.Row="0"
-										Grid.Column="0" Margin="0,5,0,0"
-										Orientation="Horizontal">
-										<RadioButton
-											x:Name="gpsRadioButton"
-											VerticalAlignment="Center"
-											GroupName="1.1.1.1.1.67"
-											Style="{StaticResource MyRadioButton}"									
-										IsChecked="{Binding Path=Type, Converter={StaticResource enumBooleanConverter}, ConverterParameter=gps, UpdateSourceTrigger=PropertyChanged}">
-										<RadioButton.Content>Государственная поверочная схема</RadioButton.Content>										
-										</RadioButton>									
-									
-										<RadioButton
-											x:Name="lpsRadioButton"
-											Margin="15,0,0,0"
-											VerticalAlignment="Center"
-											GroupName="1.1.1.1.1.67"
-											IsChecked="{Binding Path=Type, Converter={StaticResource enumBooleanConverter}, ConverterParameter=lps, UpdateSourceTrigger=PropertyChanged}">Локальная поверочная схема</RadioButton>
-										<Label
-											Margin="55,0,0,0">Наименование</Label>
-									</StackPanel>
-									<TextBox
-										x:Name="title_TextBox"
-										Grid.Row="0"
-										Grid.Column="1" Margin="0,5,0,0"
-										MaxLength="128"></TextBox>
-									<Label
-										Grid.Row="1"
-										Grid.Column="0"
-										Margin="0,5,0,0">Регистрационный номер ГПЭ, к которому прослеживается СИ, применяемое в качестве эталона</Label>
-									<TextBox
-										x:Name="npeNumber_TextBox"
-										Grid.Row="1"
-										Grid.Column="1"
-										Margin="0,5,0,0"
-										MaxLength="32"></TextBox>
-									<Label
-										Grid.Row="2"
-										Grid.Column="0"
-										Margin="0,5,0,0">Разряд в поверочной схеме</Label>
-									<ComboBox
-										Grid.Row="2"
-										Grid.Column="1"
-										Margin="0,5,0,0"
-										x:Name="rank_ComboBox"
-										Style="{StaticResource MyComboBox}"
-										ItemsSource="{Binding Source={StaticResource rankFromEnum}}"
-										SelectedIndex="0">
-										<ComboBox.ItemTemplate>
-											<DataTemplate>
-												<TextBlock
-													Text="{Binding Converter={StaticResource enumConverter}}"></TextBlock>
-											</DataTemplate>
-										</ComboBox.ItemTemplate>
-									</ComboBox>
-								</Grid>
-							</GroupBox>												
-									
-							<Grid>
-								<Grid.ColumnDefinitions>
-								<ColumnDefinition Width="Auto" SharedSizeGroup="myGroupWidth"/>
-								<ColumnDefinition/>							
-								</Grid.ColumnDefinitions>
-								<Grid.RowDefinitions>
-								<RowDefinition Height="Auto" SharedSizeGroup="myGroupHeight"/>
-								</Grid.RowDefinitions>
-								<RadioButton
-										x:Name="mpRadioButton"
-										Grid.Row="0"
-										Grid.Column="0"
-										VerticalAlignment="Center"
-										Margin="5,5,0,0"
-										GroupName="1.1.1.1.1.6" FontWeight="SemiBold"
-										IsChecked="{Binding Path=IsPS, Converter={StaticResource BoolInverseConverter}, UpdateSourceTrigger=PropertyChanged}"
-									>Методики поверки																
-								</RadioButton>									
-								<AdornerDecorator Grid.Row="0" Grid.Column="1">
-								<TextBox
-										x:Name="title_3_TextBox"
-										Grid.Row="0"
-										Grid.Column="1"
-										Margin="0,5,0,0"
-										MaxLength="128" IsEnabled="{Binding IsChecked, ElementName=mpRadioButton}"></TextBox>
-								</AdornerDecorator>
-							</Grid>							
-						
-						
-						</StackPanel>
-					</GroupBox>
-					<GroupBox Margin="0,15,0,0">
-						<GroupBox.Header>
-							<RadioButton							
-									x:Name="regNumberRadioButton"
-									GroupName="1.1.1.1.1" IsChecked="{Binding Path=Type, Converter={StaticResource enumBooleanConverter}, ConverterParameter=regNumber}"
-									VerticalContentAlignment="Center" FontWeight="SemiBold"
-									VerticalAlignment="Center">Повторная поверка СИ, применяемого в качестве эталона</RadioButton>
-						</GroupBox.Header>
-						<GroupBox.Content>
-							<Grid IsEnabled="{Binding IsChecked, ElementName=regNumberRadioButton}" >
-								<Grid.ColumnDefinitions>
-									<ColumnDefinition Width="Auto" SharedSizeGroup="myGroupWidth" />
-									<ColumnDefinition/>																
-								</Grid.ColumnDefinitions>
-								<Grid.RowDefinitions>
-									<RowDefinition
-										Height="Auto"
-										SharedSizeGroup="myGroupHeight" />
-								</Grid.RowDefinitions>
-								<Label Grid.Column="0" Margin="0,5,0,0">Номер СИ по Перечню СИ, применяемых в качестве эталонов</Label>
-								<TextBox
-									Grid.Column="1" Margin="0,5,0,0"									
-									x:Name="regNumberTextBox"
-									MaxLength="32"/>
-							</Grid>
-						</GroupBox.Content>
-					</GroupBox>
-				</StackPanel>
-			
-				
-		</Expander.Content>
-		</Expander>	
-		
-		<Expander 
-			Template="{StaticResource LazyExpanderTemplate}"
-			Grid.Row="1" Margin="0,5,0,0"
-			BorderBrush="Chocolate"
-			BorderThickness="1"
-			IsExpanded="True">
-			<Expander.Header>
-				<StackPanel
-					Orientation="Horizontal">
-					<!-- <RadioButton  x:Name="singleMIRadioButton IsChecked="{Binding IsChecked, ElementName=etaMiRadioButton, Converter={StaticResource BoolInverseConverter}}">
+                    <!--<Setter Property="Foreground" Value="Red" />-->
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </UserControl.Resources>
+    <Grid
+        Grid.IsSharedSizeScope="True">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+        </Grid.RowDefinitions>
+
+        <Expander
+            Template="{StaticResource LazyExpanderTemplate}"
+            Grid.Row="0"
+            BorderBrush="Chocolate"
+            BorderThickness="1"
+            IsExpanded="True">
+            <Expander.Header>
+                <StackPanel
+                    Orientation="Horizontal">
+                    <!--<RadioButton x:Name="etaMIRadioButton">СИ, применяемое в качестве эталона</RadioButton>!-->
+                    <RadioButton
+                        x:Name="etaMIRadioButton"
+                        GroupName="1.1.1.1"
+                        VerticalAlignment="Center"
+                        VerticalContentAlignment="Center"
+                        IsChecked="{Binding Path=Type, Converter={StaticResource enumBooleanConverter}, ConverterParameter=etaMI, UpdateSourceTrigger=PropertyChanged}"
+                        FontSize="20">
+                        СИ, применяемое в качестве эталона
+                    </RadioButton>
+                </StackPanel>
+            </Expander.Header>
+            <Expander.Content>
+
+
+                <StackPanel
+                    IsEnabled="{Binding IsChecked, ElementName=etaMIRadioButton}">
+                    <GroupBox>
+                        <GroupBox.Header>
+                            <RadioButton
+                                x:Name="primaryRecRadioButton"
+                                GroupName="1.1.1.1.1" FontWeight="SemiBold"
+                                IsChecked="{Binding Path=Type, Converter={StaticResource enumBooleanConverter}, ConverterParameter=primaryRec}">
+                                Первая поверка СИ, применяемого в качестве эталона Раздел заполняется, если СИ отсутствует в Перечне СИ, применяемых в качестве эталонов
+                            </RadioButton>
+                        </GroupBox.Header>
+                        <StackPanel
+                            IsEnabled="{Binding IsChecked, ElementName=primaryRecRadioButton}">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition
+                                        Height="Auto"
+                                        SharedSizeGroup="myGroupHeight">
+                                    </RowDefinition>
+                                    <RowDefinition></RowDefinition>
+                                    <RowDefinition></RowDefinition>
+                                    <RowDefinition></RowDefinition>
+                                    <RowDefinition></RowDefinition>
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition
+                                        Width="Auto" SharedSizeGroup="myGroupWidth" />
+                                    <ColumnDefinition />
+                                </Grid.ColumnDefinitions>
+
+                                <Label
+                                    Grid.Row="0"
+                                    Grid.Column="0"
+                                    Margin="0,5,0,0">
+                                    Номер в Госреестре утвержденного типа СИ
+                                </Label>
+                                <AdornerDecorator Grid.Row="0"
+                                                  Grid.Column="1">
+                                    <TextBox
+                                        Margin="0,5,0,0"
+                                        x:Name="mitypeNumber_1_TextBox"
+                                        MaxLength="32" />
+                                </AdornerDecorator>
+                                <Label
+                                    Grid.Row="1"
+                                    Grid.Column="0"
+                                    Margin="0,5,0,0">
+                                    Модификация СИ
+                                </Label>
+                                <AdornerDecorator Grid.Row="1"
+                                                  Grid.Column="1">
+                                    <TextBox
+                                        Margin="0,5,0,0"
+                                        x:Name="modification_1_TextBox"
+                                        MaxLength="128" />
+                                </AdornerDecorator>
+                                <Label
+                                    Grid.Row="2"
+                                    Grid.Column="0"
+                                    Margin="0,5,0,0">
+                                    Заводской номер СИ
+                                </Label>
+                                <AdornerDecorator Grid.Row="2"
+                                                  Grid.Column="1">
+                                    <TextBox
+                                        Margin="0,5,0,0"
+                                        x:Name="manufactureNum_1_TextBox"
+                                        MaxLength="128" />
+                                </AdornerDecorator>
+                                <Label
+                                    Grid.Row="3"
+                                    Grid.Column="0"
+                                    Margin="0,5,0,0">
+                                    Год выпуска СИ
+                                </Label>
+                                <AdornerDecorator Grid.Row="3" Grid.Column="1">
+                                    <TextBox
+                                        Margin="0,5,0,0"
+                                        x:Name="manufactureYearTextBox1" />
+                                </AdornerDecorator>
+                                <Label
+                                    Grid.Row="4"
+                                    Grid.Column="0"
+                                    Margin="0,5,0,0">
+                                    Поверитель является владельцем СИ, применяемого в качестве эталона
+                                </Label>
+                                <ComboBox
+                                    Grid.Row="4"
+                                    Grid.Column="1" MinWidth="250" HorizontalAlignment="Left"
+                                    Margin="0,5,0,0"
+                                    x:Name="isOwnerComboBox"
+                                    SelectedIndex="0">
+                                    <ComboBox.ItemTemplate>
+                                        <DataTemplate>
+                                            <TextBlock
+                                                Text="{Binding Converter={StaticResource YesNoToBooleanConverter}}" />
+                                        </DataTemplate>
+                                    </ComboBox.ItemTemplate>
+                                    <ComboBox.Items>
+                                        <sys:Boolean>True</sys:Boolean>
+                                        <sys:Boolean>False</sys:Boolean>
+                                    </ComboBox.Items>
+                                </ComboBox>
+                            </Grid>
+                            <GroupBox>
+                                <GroupBox.Header>
+                                    <RadioButton
+                                        x:Name="psRadioButton"
+                                        Margin="0,5,0,0" GroupName="1.1.1.1.1.6" FontWeight="SemiBold"
+                                        IsChecked="{Binding Path=IsPS, UpdateSourceTrigger=PropertyChanged}">
+                                        Поверочная схема
+                                    </RadioButton>
+                                </GroupBox.Header>
+                                <Grid
+                                    IsEnabled="{Binding IsChecked, ElementName=psRadioButton}">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition
+                                            Width="Auto" />
+                                        <ColumnDefinition />
+                                        <ColumnDefinition
+                                            Width="*" />
+                                        <ColumnDefinition />
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition
+                                            Height="Auto"
+                                            SharedSizeGroup="myGroupHeight1" />
+                                        <RowDefinition
+                                            Height="Auto"
+                                            SharedSizeGroup="myGroupHeight1" />
+                                        <RowDefinition
+                                            Height="Auto"
+                                            SharedSizeGroup="myGroupHeight1" />
+                                    </Grid.RowDefinitions>
+                                    <StackPanel
+                                        Grid.Row="0"
+                                        Grid.Column="0" Margin="0,5,0,0"
+                                        Orientation="Horizontal">
+                                        <RadioButton
+                                            x:Name="gpsRadioButton"
+                                            VerticalAlignment="Center"
+                                            GroupName="1.1.1.1.1.67"
+                                            Style="{StaticResource MyRadioButton}"
+                                            IsChecked="{Binding Path=Type, Converter={StaticResource enumBooleanConverter}, ConverterParameter=gps, UpdateSourceTrigger=PropertyChanged}">
+                                            <RadioButton.Content>Государственная поверочная схема</RadioButton.Content>
+                                        </RadioButton>
+
+                                        <RadioButton
+                                            x:Name="lpsRadioButton"
+                                            Margin="15,0,0,0"
+                                            VerticalAlignment="Center"
+                                            GroupName="1.1.1.1.1.67"
+                                            IsChecked="{Binding Path=Type, Converter={StaticResource enumBooleanConverter}, ConverterParameter=lps, UpdateSourceTrigger=PropertyChanged}">
+                                            Локальная поверочная схема
+                                        </RadioButton>
+                                        <Label
+                                            Margin="55,0,0,0">
+                                            Наименование
+                                        </Label>
+                                    </StackPanel>
+                                    <AdornerDecorator Grid.Row="0"
+                                                      Grid.Column="1">
+                                        <TextBox
+                                            x:Name="title_TextBox"
+                                            Margin="0,5,0,0"
+                                            MaxLength="128">
+                                        </TextBox>
+                                    </AdornerDecorator>
+                                    <Label
+                                        Grid.Row="1"
+                                        Grid.Column="0"
+                                        Margin="0,5,0,0">
+                                        Регистрационный номер ГПЭ, к которому прослеживается СИ, применяемое в качестве эталона
+                                    </Label>
+                                    <AdornerDecorator Grid.Row="1"
+                                                      Grid.Column="1">
+                                        <TextBox
+                                            x:Name="npeNumber_TextBox"
+                                            Margin="0,5,0,0"
+                                            MaxLength="32">
+                                        </TextBox>
+                                    </AdornerDecorator>
+                                    <Label
+                                        Grid.Row="2"
+                                        Grid.Column="0"
+                                        Margin="0,5,0,0">
+                                        Разряд в поверочной схеме
+                                    </Label>
+                                    <ComboBox
+                                        Grid.Row="2"
+                                        Grid.Column="1"
+                                        Margin="0,5,0,0"
+                                        x:Name="rank_ComboBox"
+                                        Style="{StaticResource MyComboBox}"
+                                        ItemsSource="{Binding Source={StaticResource rankFromEnum}}"
+                                        SelectedIndex="0">
+                                        <ComboBox.ItemTemplate>
+                                            <DataTemplate>
+                                                <TextBlock
+                                                    Text="{Binding Converter={StaticResource enumConverter}}">
+                                                </TextBlock>
+                                            </DataTemplate>
+                                        </ComboBox.ItemTemplate>
+                                    </ComboBox>
+                                </Grid>
+                            </GroupBox>
+
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" SharedSizeGroup="myGroupWidth" />
+                                    <ColumnDefinition />
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" SharedSizeGroup="myGroupHeight" />
+                                </Grid.RowDefinitions>
+                                <RadioButton
+                                    x:Name="mpRadioButton"
+                                    Grid.Row="0"
+                                    Grid.Column="0"
+                                    VerticalAlignment="Center"
+                                    Margin="5,5,0,0"
+                                    GroupName="1.1.1.1.1.6" FontWeight="SemiBold"
+                                    IsChecked="{Binding Path=IsPS, Converter={StaticResource BoolInverseConverter}, UpdateSourceTrigger=PropertyChanged}">
+                                    Методики поверки
+                                </RadioButton>
+                                <AdornerDecorator Grid.Row="0" Grid.Column="1">
+                                    <TextBox
+                                        x:Name="title_3_TextBox"
+                                        Margin="0,5,0,0"
+                                        MaxLength="128" IsEnabled="{Binding IsChecked, ElementName=mpRadioButton}">
+                                    </TextBox>
+                                </AdornerDecorator>
+                            </Grid>
+
+
+                        </StackPanel>
+                    </GroupBox>
+                    <GroupBox Margin="0,15,0,0">
+                        <GroupBox.Header>
+                            <RadioButton
+                                x:Name="regNumberRadioButton"
+                                GroupName="1.1.1.1.1"
+                                IsChecked="{Binding Path=Type, Converter={StaticResource enumBooleanConverter}, ConverterParameter=regNumber}"
+                                VerticalContentAlignment="Center" FontWeight="SemiBold"
+                                VerticalAlignment="Center">
+                                Повторная поверка СИ, применяемого в качестве эталона
+                            </RadioButton>
+                        </GroupBox.Header>
+                        <GroupBox.Content>
+                            <Grid IsEnabled="{Binding IsChecked, ElementName=regNumberRadioButton}">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" SharedSizeGroup="myGroupWidth" />
+                                    <ColumnDefinition />
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition
+                                        Height="Auto"
+                                        SharedSizeGroup="myGroupHeight" />
+                                </Grid.RowDefinitions>
+                                <Label Grid.Column="0" Margin="0,5,0,0">Номер СИ по Перечню СИ, применяемых в качестве эталонов</Label>
+                                <AdornerDecorator Grid.Row="0" Grid.Column="1">
+                                    <TextBox
+                                        Margin="0,5,0,0"
+                                        x:Name="regNumberTextBox"
+                                        MaxLength="32" />
+                                </AdornerDecorator>
+                            </Grid>
+                        </GroupBox.Content>
+                    </GroupBox>
+                </StackPanel>
+
+
+            </Expander.Content>
+        </Expander>
+
+        <Expander
+            Template="{StaticResource LazyExpanderTemplate}"
+            Grid.Row="1" Margin="0,5,0,0"
+            BorderBrush="Chocolate"
+            BorderThickness="1"
+            IsExpanded="True">
+            <Expander.Header>
+                <StackPanel
+                    Orientation="Horizontal">
+                    <!-- <RadioButton  x:Name="singleMIRadioButton IsChecked="{Binding IsChecked, ElementName=etaMiRadioButton, Converter={StaticResource BoolInverseConverter}}">
 						Сведения о единичном СИ</RadioButton>! -->
-					<RadioButton
-						x:Name="singleMIRadioButton"
-						GroupName="1.1.1.1"
-						VerticalAlignment="Center"
-						VerticalContentAlignment="Center"
-						IsChecked="{Binding Path=Type, Converter={StaticResource enumBooleanConverter}, ConverterParameter=singleMI, UpdateSourceTrigger=PropertyChanged}"
-						FontSize="20">Сведения о единичном СИ</RadioButton>
-				</StackPanel>
-			</Expander.Header>
-			<Expander.Content>
-				<StackPanel
-					FlowDirection="LeftToRight"
-					IsEnabled="{Binding IsChecked, ElementName=singleMIRadioButton}">
-					<GroupBox>
-						<GroupBox.Content>
-							<Grid>
-								<Grid.RowDefinitions>
-									<RowDefinition
-										Height="Auto"
-										SharedSizeGroup="myGroupHeight" />
-									<RowDefinition
-										Height="Auto"
-										SharedSizeGroup="myGroupHeight" />
-									<RowDefinition
-										Height="Auto"
-										SharedSizeGroup="myGroupHeight" />
-								</Grid.RowDefinitions>
-								<Grid.ColumnDefinitions>
-									<ColumnDefinition
-										Width="Auto"
-										SharedSizeGroup="myGroupWidth" />
-									<ColumnDefinition/>
-								</Grid.ColumnDefinitions>
-								<RadioButton
-									Grid.Row="0"
-									Grid.Column="0"
-									Margin="0,5,0,0"
-									x:Name="mitypeNumberRadioButton"
-									VerticalContentAlignment="Center"
-									VerticalAlignment="Center"
-									GroupName="1.1.1.2.1"
-									IsChecked="{Binding Path=Item1Type, Converter={StaticResource enumBooleanConverter}, ConverterParameter=mitypeNumber, UpdateSourceTrigger=PropertyChanged}">Номер в Госреестре утвержденного типа СИ</RadioButton>
-								<TextBox
-									Grid.Row="0"
-									Grid.Column="1"
-									Margin="5,5,0,0"
-									x:Name="mitypeNumber_2_TextBox"
-									IsEnabled="{Binding IsChecked, ElementName=mitypeNumberRadioButton}"
-									MaxLength="32" />
-								<RadioButton
-									Grid.Row="1"
-									Grid.Column="0"
-									Margin="0,5,0,0"
-									x:Name="crtmitypeTitleRadioButton"
-									VerticalContentAlignment="Center"
-									VerticalAlignment="Center"
-									GroupName="1.1.1.2.1"
-									IsChecked="{Binding Path=Item1Type, Converter={StaticResource enumBooleanConverter}, ConverterParameter=crtmitypeTitle, UpdateSourceTrigger=PropertyChanged}">Метрологическая аттестация: наименование СИ</RadioButton>
-								<TextBox
-									Grid.Row="1"
-									Grid.Column="1"
-									Margin="5,5,0,0"
-									x:Name="crtmitypeTitleTextBox"
-									IsEnabled="{Binding IsChecked, ElementName=crtmitypeTitleRadioButton}"
-									MaxLength="512" />
-								<RadioButton
-									Grid.Row="2"
-									Grid.Column="0"
-									Margin="0,5,0,0"
-									x:Name="milmitypeTitleRadioButton"
-									VerticalContentAlignment="Center"
-									VerticalAlignment="Center"
-									GroupName="1.1.1.2.1"
-									IsChecked="{Binding Path=Item1Type, Converter={StaticResource enumBooleanConverter}, ConverterParameter=milmitypeTitle, UpdateSourceTrigger=PropertyChanged}">СИ специального назначения: наименование СИ</RadioButton>
-								<TextBox
-									Grid.Row="2"
-									Grid.Column="1"
-									Margin="5,5,0,0"
-									x:Name="milmitypeTitleTextBox"
-									IsEnabled="{Binding IsChecked, ElementName=milmitypeTitleRadioButton}"
-									MaxLength="512" />
-							</Grid>
-						</GroupBox.Content>
-					</GroupBox>
-					<GroupBox>
-						<GroupBox.Content>
-							<Grid>
-								<Grid.RowDefinitions>
-									<RowDefinition
-										Height="Auto"
-										SharedSizeGroup="myGroupHeight" />
-									<RowDefinition
-										Height="Auto"
-										SharedSizeGroup="myGroupHeight" />
-								</Grid.RowDefinitions>
-								<Grid.ColumnDefinitions>
-									<ColumnDefinition										
-										Width="Auto" SharedSizeGroup="myGroupWidth" />
-									<ColumnDefinition />
-								</Grid.ColumnDefinitions>
-								<RadioButton
-									Grid.Row="0"
-									Grid.Column="0"
-									Margin="0,5,0,0"
-									VerticalContentAlignment="Center"
-									VerticalAlignment="Center"
-									x:Name="manufactureNum_1_RadioButton"
-									IsChecked="{Binding Path=Item2Type, Converter={StaticResource enumBooleanConverter}, ConverterParameter=manufactureNum, UpdateSourceTrigger=PropertyChanged}"
-									GroupName="1.1.1.2.4">Заводской номер СИ</RadioButton>
-								<TextBox
-									Grid.Row="0"
-									Grid.Column="1"
-									Margin="5,5,0,0"
-									x:Name="manufactureNum_2_TextBox"
-									IsEnabled="{Binding IsChecked, ElementName=manufactureNum_1_RadioButton}"
-									MaxLength="128" />
-								<RadioButton
-									Grid.Row="1"
-									Grid.Column="0"
-									Margin="0,5,0,0"
-									x:Name="inventoryNum_1_RadioButton"
-									VerticalContentAlignment="Center"
-									VerticalAlignment="Center"
-									IsChecked="{Binding Path=Item2Type, Converter={StaticResource enumBooleanConverter}, ConverterParameter=inventoryNum, UpdateSourceTrigger=PropertyChanged}"
-									GroupName="1.1.1.2.4">Буквенно-цифровое обозначение</RadioButton>
-								<TextBox
-									Grid.Row="1"
-									Grid.Column="2"
-									Margin="5,5,0,0"
-									x:Name="inventoryNumTextBox"
-									IsEnabled="{Binding IsChecked, ElementName=inventoryNum_1_RadioButton}"
-									MaxLength="128" />
-							</Grid>
-						</GroupBox.Content>
-					</GroupBox>
-					<GroupBox>
-						<GroupBox.Content>
-							<Grid>
-								<Grid.RowDefinitions>
-									<RowDefinition
-										Height="Auto"
-										SharedSizeGroup="myGroupHeight" />
-									<RowDefinition
-										Height="Auto"
-										SharedSizeGroup="myGroupHeight" />
-								</Grid.RowDefinitions>
-								<Grid.ColumnDefinitions>
-									<ColumnDefinition
-										Width="Auto"
-										SharedSizeGroup="myGroupWidth"/>
-									<ColumnDefinition />
-								</Grid.ColumnDefinitions>
-								<Label
-									Grid.Row="0"
-									Grid.Column="0"
-									Margin="0,5,0,0">Год выпуска СИ</Label>
-								<TextBox
-									Grid.Row="0"
-									Grid.Column="1"
-									Margin="5,5,0,0"
-									x:Name="manufactureYearTextBox2" />
-								<Label
-									Grid.Row="1"
-									Grid.Column="0"
-									Margin="0,5,0,0">Модификация СИ</Label>
-								<TextBox
-									Grid.Row="1"
-									Grid.Column="1"
-									Margin="5,5,0,0"
-									x:Name="modification_2_TextBox"
-									MaxLength="128" />
-							</Grid>
-						</GroupBox.Content>
-					</GroupBox>
-				</StackPanel>
-			</Expander.Content>
-		</Expander>
-	</Grid>
+                    <RadioButton
+                        x:Name="singleMIRadioButton"
+                        GroupName="1.1.1.1"
+                        VerticalAlignment="Center"
+                        VerticalContentAlignment="Center"
+                        IsChecked="{Binding Path=Type, Converter={StaticResource enumBooleanConverter}, ConverterParameter=singleMI, UpdateSourceTrigger=PropertyChanged}"
+                        FontSize="20">
+                        Сведения о единичном СИ
+                    </RadioButton>
+                </StackPanel>
+            </Expander.Header>
+            <Expander.Content>
+                <StackPanel
+                    FlowDirection="LeftToRight"
+                    IsEnabled="{Binding IsChecked, ElementName=singleMIRadioButton}">
+                    <GroupBox>
+                        <GroupBox.Content>
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition
+                                        Height="Auto"
+                                        SharedSizeGroup="myGroupHeight" />
+                                    <RowDefinition
+                                        Height="Auto"
+                                        SharedSizeGroup="myGroupHeight" />
+                                    <RowDefinition
+                                        Height="Auto"
+                                        SharedSizeGroup="myGroupHeight" />
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition
+                                        Width="Auto"
+                                        SharedSizeGroup="myGroupWidth" />
+                                    <ColumnDefinition />
+                                </Grid.ColumnDefinitions>
+                                <RadioButton
+                                    Grid.Row="0"
+                                    Grid.Column="0"
+                                    Margin="0,5,0,0"
+                                    x:Name="mitypeNumberRadioButton"
+                                    VerticalContentAlignment="Center"
+                                    VerticalAlignment="Center"
+                                    GroupName="1.1.1.2.1"
+                                    IsChecked="{Binding Path=Item1Type, Converter={StaticResource enumBooleanConverter}, ConverterParameter=mitypeNumber, UpdateSourceTrigger=PropertyChanged}">
+                                    Номер в Госреестре утвержденного типа СИ
+                                </RadioButton>
+                                <AdornerDecorator Grid.Row="0" Grid.Column="1">
+                                    <TextBox
+                                        Margin="5,5,0,0"
+                                        x:Name="mitypeNumber_2_TextBox"
+                                        IsEnabled="{Binding IsChecked, ElementName=mitypeNumberRadioButton}"
+                                        MaxLength="32" />
+                                </AdornerDecorator>
+                                <RadioButton
+                                    Grid.Row="1"
+                                    Grid.Column="0"
+                                    Margin="0,5,0,0"
+                                    x:Name="crtmitypeTitleRadioButton"
+                                    VerticalContentAlignment="Center"
+                                    VerticalAlignment="Center"
+                                    GroupName="1.1.1.2.1"
+                                    IsChecked="{Binding Path=Item1Type, Converter={StaticResource enumBooleanConverter}, ConverterParameter=crtmitypeTitle, UpdateSourceTrigger=PropertyChanged}">
+                                    Метрологическая аттестация: наименование СИ
+                                </RadioButton>
+                                <AdornerDecorator Grid.Row="1" Grid.Column="1">
+                                    <TextBox
+                                        Margin="5,5,0,0"
+                                        x:Name="crtmitypeTitleTextBox"
+                                        IsEnabled="{Binding IsChecked, ElementName=crtmitypeTitleRadioButton}"
+                                        MaxLength="512" />
+                                </AdornerDecorator>
+                                <RadioButton
+                                    Grid.Row="2"
+                                    Grid.Column="0"
+                                    Margin="0,5,0,0"
+                                    x:Name="milmitypeTitleRadioButton"
+                                    VerticalContentAlignment="Center"
+                                    VerticalAlignment="Center"
+                                    GroupName="1.1.1.2.1"
+                                    IsChecked="{Binding Path=Item1Type, Converter={StaticResource enumBooleanConverter}, ConverterParameter=milmitypeTitle, UpdateSourceTrigger=PropertyChanged}">
+                                    СИ специального назначения: наименование СИ
+                                </RadioButton>
+                                <AdornerDecorator Grid.Row="2" Grid.Column="1">
+                                    <TextBox
+                                        Margin="5,5,0,0"
+                                        x:Name="milmitypeTitleTextBox"
+                                        IsEnabled="{Binding IsChecked, ElementName=milmitypeTitleRadioButton}"
+                                        MaxLength="512" />
+                                </AdornerDecorator>
+                            </Grid>
+                        </GroupBox.Content>
+                    </GroupBox>
+                    <GroupBox>
+                        <GroupBox.Content>
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition
+                                        Height="Auto"
+                                        SharedSizeGroup="myGroupHeight" />
+                                    <RowDefinition
+                                        Height="Auto"
+                                        SharedSizeGroup="myGroupHeight" />
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition
+                                        Width="Auto" SharedSizeGroup="myGroupWidth" />
+                                    <ColumnDefinition />
+                                </Grid.ColumnDefinitions>
+                                <RadioButton
+                                    Grid.Row="0"
+                                    Grid.Column="0"
+                                    Margin="0,5,0,0"
+                                    VerticalContentAlignment="Center"
+                                    VerticalAlignment="Center"
+                                    x:Name="manufactureNum_1_RadioButton"
+                                    IsChecked="{Binding Path=Item2Type, Converter={StaticResource enumBooleanConverter}, ConverterParameter=manufactureNum, UpdateSourceTrigger=PropertyChanged}"
+                                    GroupName="1.1.1.2.4">
+                                    Заводской номер СИ
+                                </RadioButton>
+                                <AdornerDecorator Grid.Row="0" Grid.Column="1">
+                                    <TextBox
+                                        Margin="5,5,0,0"
+                                        x:Name="manufactureNum_2_TextBox"
+                                        IsEnabled="{Binding IsChecked, ElementName=manufactureNum_1_RadioButton}"
+                                        MaxLength="128" />
+                                </AdornerDecorator>
+                                <RadioButton
+                                    Grid.Row="1"
+                                    Grid.Column="0"
+                                    Margin="0,5,0,0"
+                                    x:Name="inventoryNum_1_RadioButton"
+                                    VerticalContentAlignment="Center"
+                                    VerticalAlignment="Center"
+                                    IsChecked="{Binding Path=Item2Type, Converter={StaticResource enumBooleanConverter}, ConverterParameter=inventoryNum, UpdateSourceTrigger=PropertyChanged}"
+                                    GroupName="1.1.1.2.4">
+                                    Буквенно-цифровое обозначение
+                                </RadioButton>
+                                <AdornerDecorator Grid.Row="1" Grid.Column="2">
+                                    <TextBox
+                                        Margin="5,5,0,0"
+                                        x:Name="inventoryNumTextBox"
+                                        IsEnabled="{Binding IsChecked, ElementName=inventoryNum_1_RadioButton}"
+                                        MaxLength="128" />
+                                </AdornerDecorator>
+                            </Grid>
+                        </GroupBox.Content>
+                    </GroupBox>
+                    <GroupBox>
+                        <GroupBox.Content>
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition
+                                        Height="Auto"
+                                        SharedSizeGroup="myGroupHeight" />
+                                    <RowDefinition
+                                        Height="Auto"
+                                        SharedSizeGroup="myGroupHeight" />
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition
+                                        Width="Auto"
+                                        SharedSizeGroup="myGroupWidth" />
+                                    <ColumnDefinition />
+                                </Grid.ColumnDefinitions>
+                                <Label
+                                    Grid.Row="0"
+                                    Grid.Column="0"
+                                    Margin="0,5,0,0">
+                                    Год выпуска СИ
+                                </Label>
+                                <AdornerDecorator Grid.Row="0" Grid.Column="1">
+                                    <TextBox
+                                        Margin="5,5,0,0"
+                                        x:Name="manufactureYearTextBox2" />
+                                </AdornerDecorator>
+                                <Label
+                                    Grid.Row="1"
+                                    Grid.Column="0"
+                                    Margin="0,5,0,0">
+                                    Модификация СИ
+                                </Label>
+                                <AdornerDecorator Grid.Row="1" Grid.Column="1">
+                                    <TextBox
+                                        Margin="5,5,0,0"
+                                        x:Name="modification_2_TextBox"
+                                        MaxLength="128" />
+                                </AdornerDecorator>
+                            </Grid>
+                        </GroupBox.Content>
+                    </GroupBox>
+                </StackPanel>
+            </Expander.Content>
+        </Expander>
+    </Grid>
 </UserControl>

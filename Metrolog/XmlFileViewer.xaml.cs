@@ -10,6 +10,7 @@ using System.Text;
 using System.Windows;
 using System.Windows.Annotations;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
@@ -227,6 +228,56 @@ namespace Metrolog
         private void BackToMainWindowButton_OnClick(object sender, RoutedEventArgs e)
         {
             if (ReturnToMainViewClick != null) ReturnToMainViewClick(this, e);
+        }
+
+        private void ValidateToSchemaButton_OnClick(object sender, RoutedEventArgs e)
+        {
+            string schemaFile = App.ApplicationSettings.SchemaFile;
+            ValidateToSchema(schemaFile);
+        }
+
+        private void ValidateToSchema(string schemaFile)
+        {
+            if (!File.Exists(schemaFile))
+            {
+                MessageBox.Show(
+                    "Файл *.xsd не существует. Проверьте правильность наименования и расположения файла в меню \"Настройки\"",
+                    "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+
+            try
+            {
+                var validzateResult =  ValidatorXmlSchema.ValidateAndGetCommonText(_document, schemaFile);
+                if (validzateResult.errors || validzateResult.warnings)
+                {
+                    MessageBoxResult res = MessageBox.Show(
+                        "При проверке на соответствие схеме возникли ошибки и предупреждения.",
+                        "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+                
+                 Popup myPopup = new Popup();
+                            StackPanel stackPanel = new StackPanel();
+                            
+                            Border border= new Border() {BorderBrush = Brushes.Aqua, Width =500, Height = 300};
+                            TextBlock textBlock = new TextBlock() {Text = validzateResult.errorsAndWarningsText, Background = Brushes.Bisque, VerticalAlignment = VerticalAlignment.Stretch, HorizontalAlignment = HorizontalAlignment.Stretch};
+                            border.Child = textBlock;
+                            stackPanel.Children.Add(border);
+                            myPopup.Child = stackPanel;
+                            myPopup.PlacementTarget = this;
+                            myPopup.Placement = PlacementMode.Center;
+                            myPopup.StaysOpen = false;
+                            myPopup.IsOpen = true;
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(
+                        $"При проверке на соответствие схеме возникла ошибка \"{e.Message}\".",
+                        "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                
+            }
+            
+           
         }
     }
 }

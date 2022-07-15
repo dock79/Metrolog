@@ -36,6 +36,7 @@ namespace Metrolog
 			XmlSchemaTextBox.Text = App.ApplicationSettings.SchemaFile;
 			ColorThemeComboBox.SelectedIndex = App.ApplicationSettings.ColorTheme;
 			XmlViewerComboBox.SelectedIndex = (int)App.ApplicationSettings.XmlViewer;
+			IsAnimateCheckBox.IsChecked = App.ApplicationSettings.IsAnimate;
 		}
 
 		private void ChangeSettings()
@@ -47,6 +48,8 @@ namespace Metrolog
 			App.ApplicationSettings.SchemaFile = XmlSchemaTextBox.Text;
 			App.ApplicationSettings.ColorTheme = ColorThemeComboBox.SelectedIndex;
 			App.ApplicationSettings.XmlViewer = (XmlViewer)XmlViewerComboBox.SelectedIndex;
+			result = IsAnimateCheckBox.IsChecked;
+			App.ApplicationSettings.IsAnimate = result.HasValue ? result.Value : false;
 		}
 		
 		private void SettingsWindow_OnLoaded(object sender, RoutedEventArgs e)
@@ -54,7 +57,7 @@ namespace Metrolog
 			LoadSettings();
 		}
 	
-		private void OkButton_OnClick(object sender, RoutedEventArgs e)
+		private void OKButton_OnClick(object sender, RoutedEventArgs e)
 		{
 			ChangeSettings();
 			DialogResult = true;

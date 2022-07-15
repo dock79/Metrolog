@@ -11,22 +11,22 @@
 	<Grid>
 		<Grid>
 			<Grid.ColumnDefinitions>
-				<ColumnDefinition></ColumnDefinition>
+				<ColumnDefinition Width="Auto"></ColumnDefinition>
 				<ColumnDefinition></ColumnDefinition>
 				<ColumnDefinition></ColumnDefinition>
 			</Grid.ColumnDefinitions>
 			<Grid.RowDefinitions>
-				<RowDefinition
-					Height="150"></RowDefinition>
+				<RowDefinition></RowDefinition>
 				<RowDefinition></RowDefinition>
 				<RowDefinition></RowDefinition>
 			</Grid.RowDefinitions>
-			<Image
+			<!--<Image
 				Grid.Row="0"
 				Grid.Column="0"
-				Grid.ColumnSpan="3" 
-				Source="Images/Logo.jpg"
-				Stretch="Fill" />
+				Grid.ColumnSpan="3"
+				Grid.RowSpan="3"
+				Source="Images/Logo1.jpg"
+				Stretch="Fill" />-->
 			<!-- <StackPanel
 				Grid.Column="0"
 				Grid.Row="0"
@@ -64,10 +64,10 @@
 				Grid.ColumnSpan="3"
 				Grid.RowSpan="2"></Frame> -->
 			<ContentControl
-				Grid.Row="1"
+				Grid.Row="0"
 				Grid.Column="0"
 				Grid.ColumnSpan="3"
-				Grid.RowSpan="2"
+				Grid.RowSpan="3"
 				x:Name="contentControl"
 				Content="{Binding CurrentContent, UpdateSourceTrigger=PropertyChanged}"></ContentControl>
 		</Grid>

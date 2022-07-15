@@ -82,7 +82,6 @@ namespace Metrolog
         {
             if (value == _isAnimate) return;
             _isAnimate = value;
-            //_config.AppSettings.Settings["IsValidateToSchema"].Value = value.ToString();
             OnPropertyChanged();
         }
     }

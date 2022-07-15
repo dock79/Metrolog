@@ -134,10 +134,8 @@ namespace Metrolog
         private void CreateChildElements(XmlNode innerNode, TreeViewItem parent)
         {
             var item = new TreeViewItem() {IsExpanded = true};
-
             var header = new TextBlock();
-            header.FontSize = 14;
-
+            
             switch (innerNode.NodeType)
             {
                 case XmlNodeType.Element:

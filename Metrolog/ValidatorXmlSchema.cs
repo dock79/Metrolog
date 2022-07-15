@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
+using System.Windows;
 using System.Xml;
 using System.Xml.Schema;
 
@@ -11,7 +12,6 @@ namespace Metrolog
     {
         public static (bool errors, List<string> errorsList, bool warnings, List<string> warningsList) ValidateToSchema(XmlDocument xmlDoc, string schemaUri)
         {
-            StringBuilder sb = new StringBuilder();
             bool errors = false;
             bool warnings = false;
             List<string> errorsList = new List<string>();
@@ -48,34 +48,29 @@ namespace Metrolog
                     switch (e.Severity)
                     {
                         case XmlSeverityType.Error:
-                            sb.Append("ERROR: " + e.Message);
-                            sb.AppendLine();
                             errorsList.Add(e.Message);
                             errors = true;
                             break;
                         case XmlSeverityType.Warning:
-                            sb.Append("WARNING: " + e.Message);
-                            sb.AppendLine();
                             warningsList.Add(e.Message);
                             warnings = true;
                             break;
                     }
                 };
+                
                 MemoryStream strm = new MemoryStream();
                 xmlDoc.Save(strm);
                 strm.Position = 0;
-                sb.Clear();
                 XmlReader xmlReader = XmlReader.Create(strm, validateSettings);
                 while (xmlReader.Read())
                 {
                 }
-
-                //File.WriteAllText("newTexet.txt", sb.ToString());
                 strm.Close();
 
             }
             catch (Exception ex)
             {
+                throw;
                 //MessageBox.Show(ex.Message, "Ошибка");
             }
 
@@ -111,5 +106,6 @@ namespace Metrolog
             var result = (validateTuple.errors, validateTuple.warnings, resultText);
             return result;
         }
+        
     }
 }

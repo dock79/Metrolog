@@ -246,23 +246,42 @@ namespace Metrolog
         private void CreateXmlFile()
         {
             XmlDocument xmlDoc = CreateBlankXml();
-            //IsValidateToSchema = true;
             if (IsValidateToSchema)
             {
-                bool validzateResult = ValidateXmlToSchema(xmlDoc, SchemaFile);
-                if (!validzateResult)
+                if (!File.Exists(SchemaFile))
                 {
-                    MessageBoxResult res = MessageBox.Show("При проверке на соответствие схеме возникли ошибки и предупреждения. Сформировать файл?",
-                        "Предупреждение", MessageBoxButton.YesNo, MessageBoxImage.Warning);
+                    MessageBox.Show(
+                        "Файл *.xsd не существует. Проверьте правильность наименования и расположения файла в меню \"Настройки\"",
+                        "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                    return;
+                }
+
+                try
+                {
+                    bool validzateResult = ValidateXmlToSchema(xmlDoc, SchemaFile);
+                    if (!validzateResult)
+                    {
+                        MessageBoxResult res = MessageBox.Show(
+                            "При проверке на соответствие схеме возникли ошибки и предупреждения. \nСформировать файл?",
+                            "Предупреждение", MessageBoxButton.YesNo, MessageBoxImage.Warning);
+                        if (res == MessageBoxResult.No) return;
+                    }
+                }
+                catch (Exception e)
+                {
+                    MessageBoxResult res =
+                        MessageBox.Show(
+                            $"При проверке на соответствие схеме возникла ошибка \"{e.Message}\". \nСформировать файл?",
+                            "Предупреждение", MessageBoxButton.YesNo, MessageBoxImage.Warning);
                     if (res == MessageBoxResult.No) return;
                 }
             }
-            
+
             SaveFileDialog dlg = new SaveFileDialog();
             dlg.Filter = "Документы xml (.xml)|*.xml|Все файлы (*.*)|*.*";
             if (dlg.ShowDialog() == true)
             {
-                // string filePath = dlg.FileName;// @"a344444.xml";
+                // string filePath = dlg.FileName;
                 XmlFileName = dlg.FileName;
                 //сохраняем в документ
                 //xmlDoc.Save(filePath);

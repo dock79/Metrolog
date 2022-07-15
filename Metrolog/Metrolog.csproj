@@ -162,5 +162,10 @@
   <ItemGroup>
     <Resource Include="Images\Logo.jpg" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Logo1.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

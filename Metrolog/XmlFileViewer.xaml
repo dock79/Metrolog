@@ -113,9 +113,9 @@
 	</UserControl.Resources>
 	<Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition></ColumnDefinition>
-            <ColumnDefinition></ColumnDefinition>
-            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition Width="*"></ColumnDefinition>
+            <ColumnDefinition Width="Auto"></ColumnDefinition>
+            <ColumnDefinition Width="*"></ColumnDefinition>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition
@@ -132,8 +132,8 @@
                                         Margin="5" Grid.Row="0" Grid.Column="0" Grid.RowSpan="4" Grid.ColumnSpan="3">
         </local:XmlFileViewerUserControl>
         <StackPanel Orientation="Horizontal" Grid.Row="4" Grid.Column="1">
-            <Button x:Name="CheckToSchemaButton" Grid.Row="4" Grid.Column="0" Margin="5" VerticalAlignment="Center" HorizontalContentAlignment="Center"
-                    MinHeight="30" MinWidth="220">Проверить на соответствие схеме</Button>
+            <Button x:Name="ValidateToSchemaButton" Grid.Row="4" Grid.Column="0" Margin="5" VerticalAlignment="Center" HorizontalContentAlignment="Center"
+                    MinHeight="30" MinWidth="220"  Click="ValidateToSchemaButton_OnClick">Проверить на соответствие схеме</Button>
             <Button
                 Content="Вернуться на главный экран"
                 Grid.Row="4"

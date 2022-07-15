@@ -7,10 +7,9 @@
 		<local:CurrentIndexConverter
 			x:Key="CurrentIndexConverter"></local:CurrentIndexConverter>
 	</UserControl.Resources>
-	<Grid Grid.IsSharedSizeScope="True">
+	<Grid Grid.IsSharedSizeScope="True" ShowGridLines="True">
 		<Grid.ColumnDefinitions>
-			<ColumnDefinition></ColumnDefinition>
-			<ColumnDefinition></ColumnDefinition>
+			<ColumnDefinition Width="Auto"></ColumnDefinition>
 			<ColumnDefinition></ColumnDefinition>
 		</Grid.ColumnDefinitions>
 		<Grid.RowDefinitions>
@@ -20,7 +19,8 @@
 				Height="*"></RowDefinition>
 			<RowDefinition SharedSizeGroup="a"></RowDefinition>
 		</Grid.RowDefinitions>
-		<StackPanel Grid.Row="0" Grid.Column="0" Margin="5,5,0,0"
+		
+		<StackPanel Grid.Row="0" Grid.Column="0" Margin="5,15,0,0"
 		            Orientation="Horizontal">
 				<Button
 					x:Name="NewRecordButton"
@@ -54,17 +54,17 @@
 		
 		<Label
 			Grid.Row="0"
-			Grid.Column="1"
-			Grid.ColumnSpan="2"
-			FontSize="18" Margin="5"
+			Grid.Column="1" 
+			FontSize="18"  Margin="5,15,5,0"
 			HorizontalAlignment="Center"
 			VerticalAlignment="Center"
 			FontWeight="Bold">Сведения о результатах поверки СИ</Label>
+		
 		<TabControl
 			Grid.Column="0"
 			Grid.Row="1"
-			Grid.ColumnSpan="3"
-			Margin="5,2,0,0"
+			Grid.ColumnSpan="2"
+			Margin="5,15,0,0"
 			TabStripPlacement="Left" 
 			x:Name="RecordsTabControl">
 			<TabItem>
@@ -117,38 +117,38 @@
 			</TabItem>
 		</TabControl>
 		
-			<StackPanel Grid.Row="2" Grid.Column="1" Margin="5,1,0,0" Orientation="Horizontal">
+		<Grid Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" ShowGridLines="True">
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition></ColumnDefinition>
+				<ColumnDefinition Width="Auto"></ColumnDefinition>
+				<ColumnDefinition></ColumnDefinition>
+			</Grid.ColumnDefinitions>
+			<StackPanel Grid.Column="1" Margin="5,1,0,0" Orientation="Horizontal">
 					<Button
                 			Content="Сформировать xml файл"
-                			Grid.Column="0"
-                			Grid.Row="4" 
                             VerticalAlignment="Center" HorizontalContentAlignment="Center"
-                            MinHeight="30" 
-                			IsDefault="False"
-                			x:Name="XmlFileButton"
+                            MinHeight="30" MinWidth="220"
+                            x:Name="XmlFileButton"
                 			Margin="5"
                 			IsEnabled="{Binding Path=CurrentIndex, Converter={StaticResource CurrentIndexConverter}, UpdateSourceTrigger=PropertyChanged}"
                 			Click="XmlFileButton_OnClick" />
                 		<Button
                 			Content="Сохранить файл поверки СИ"
-                			Grid.Column="1"
-                			Grid.Row="4"
-                			x:Name="SaveXmlButton"
+                            x:Name="SaveXmlButton"
                 			Margin="5"
                             VerticalAlignment="Center" HorizontalContentAlignment="Center"
-                            MinHeight="30" 
+                            MinHeight="30" MinWidth="220"
                 			Click="SaveXmlButton_OnClick" 
                 			IsEnabled="{Binding Path=CurrentIndex, Converter={StaticResource CurrentIndexConverter}, UpdateSourceTrigger=PropertyChanged}"/>
                 		<Button
                 			Content="Вернуться на главный экран"
-                			Grid.Column="2"
-                			Grid.Row="4"
-                			x:Name="BackToMainWindowButton"
+                            x:Name="BackToMainWindowButton"
                             VerticalAlignment="Center" HorizontalContentAlignment="Center"
-                            MinHeight="30" 
+                            MinHeight="30" MinWidth="220"
                 			Margin="5"
                 			Click="BackToMainWindowButton_OnClick" />
 			</StackPanel>
+		</Grid>
 	</Grid>
 	<UserControl.Triggers>
 		<EventTrigger
