@@ -256,7 +256,7 @@ namespace Metrolog
                         "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
                 
-                 Popup myPopup = new Popup();
+                 /*Popup myPopup = new Popup();
                             StackPanel stackPanel = new StackPanel();
                             
                             Border border= new Border() {BorderBrush = Brushes.Aqua, Width =500, Height = 300};
@@ -268,6 +268,7 @@ namespace Metrolog
                             myPopup.Placement = PlacementMode.Center;
                             myPopup.StaysOpen = false;
                             myPopup.IsOpen = true;
+                 */
             }
             catch (Exception e)
             {

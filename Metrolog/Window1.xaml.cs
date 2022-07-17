@@ -95,7 +95,7 @@ namespace Metrolog
 			
 			_xmlFileControl.ReturnToMainViewClick += _newXmlFileControl_ReturnToMainViewClick;
 			_xmlFileViewer.ReturnToMainViewClick += XmlFileViewerOnReturnToMainViewClick;
-			CurrentContent = _xmlFileControl;//_mainViewControl;
+			CurrentContent = _mainViewControl; // _xmlFileControl;
 			contentControl.DataContext = this;
 			
 			//contentControl.Content = new MainViewControl();

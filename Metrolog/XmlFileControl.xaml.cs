@@ -250,30 +250,32 @@ namespace Metrolog
             {
                 if (!File.Exists(SchemaFile))
                 {
-                    MessageBox.Show(
-                        "Файл *.xsd не существует. Проверьте правильность наименования и расположения файла в меню \"Настройки\"",
-                        "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
-                    return;
+                    MessageBoxResult res = MessageBox.Show(
+                        "Файл *.xsd не существует. Проверьте правильность наименования и расположения файла в меню \"Настройки\". \nСфрмировать файл?",
+                        "Ошибка", MessageBoxButton.YesNo, MessageBoxImage.Error);
+                    if (res == MessageBoxResult.No) return;
                 }
-
-                try
+                else
                 {
-                    bool validzateResult = ValidateXmlToSchema(xmlDoc, SchemaFile);
-                    if (!validzateResult)
+                    try
                     {
-                        MessageBoxResult res = MessageBox.Show(
-                            "При проверке на соответствие схеме возникли ошибки и предупреждения. \nСформировать файл?",
-                            "Предупреждение", MessageBoxButton.YesNo, MessageBoxImage.Warning);
+                        bool validzateResult = ValidateXmlToSchema(xmlDoc, SchemaFile);
+                        if (!validzateResult)
+                        {
+                            MessageBoxResult res = MessageBox.Show(
+                                "При проверке на соответствие схеме возникли ошибки и предупреждения. \nСформировать файл?",
+                                "Предупреждение", MessageBoxButton.YesNo, MessageBoxImage.Warning);
+                            if (res == MessageBoxResult.No) return;
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                        MessageBoxResult res =
+                            MessageBox.Show(
+                                $"При проверке на соответствие схеме возникла ошибка \"{e.Message}\". \nСформировать файл?",
+                                "Предупреждение", MessageBoxButton.YesNo, MessageBoxImage.Warning);
                         if (res == MessageBoxResult.No) return;
                     }
-                }
-                catch (Exception e)
-                {
-                    MessageBoxResult res =
-                        MessageBox.Show(
-                            $"При проверке на соответствие схеме возникла ошибка \"{e.Message}\". \nСформировать файл?",
-                            "Предупреждение", MessageBoxButton.YesNo, MessageBoxImage.Warning);
-                    if (res == MessageBoxResult.No) return;
                 }
             }
 
